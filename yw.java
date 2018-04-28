@@ -24,7 +24,7 @@ public class yw {//有待接口化
         name = yname;
         phyle = yphyle;
         religion = yreligion;
-        if (name=="muslim"){
+        if (name.equals("muslim")){
         energy = 10;
         blood = 100;
         attack = 5;
