@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package yinweilegend;
 
 /**
  *
  * @author lenovo
  */
-public class yw {//有待接口化
+public class yw {//鏈夊緟鎺ュ彛鍖�
     public String name;
     private String phyle;
     private String religion;
@@ -24,45 +23,45 @@ public class yw {//有待接口化
         name = yname;
         phyle = yphyle;
         religion = yreligion;
-        if (name.equals("muslim")){
-        energy = 10;
-        blood = 100;
-        attack = 5;
-        attackRange = 1;
-        //ability 待实现
-        saying = "我的乌玛，曙光已现";}
+        if (name=="muslim"){
+            energy = 10;
+            blood = 100;
+            attack = 5;
+            attackRange = 1;
+            //ability 寰呭疄鐜�
+            saying = "鎴戠殑涔岀帥锛屾洐鍏夊凡鐜�";}
     }
-    
-   public String getPhyle(){
-       return this.phyle;
-   }
+
+    public String getPhyle(){
+        return this.phyle;
+    }
     public String getReligion(){
-       return this.religion;
-   }
+        return this.religion;
+    }
     public int getBlood(){
-       return this.blood;
+        return this.blood;
     }
     public int getEnergy(){
-       return this.energy;
+        return this.energy;
     }
     public int getAttack(){
-       return this.attack;
+        return this.attack;
     }
     public int getAttackRange(){
-       return this.attackRange;
+        return this.attackRange;
     }
-    public String getInfo(){//实际数据投影
-       return name+" ("+energy+"/"+blood+"/"+attack+"/"+attackRange+")";
+    public String getInfo(){//瀹為檯鏁版嵁鎶曞奖
+        return name+" ("+energy+"/"+blood+"/"+attack+"/"+attackRange+")";
     }
-    public String die(){//阵亡
+    public String die(){//闃典骸
         return saying;
     }
-    public void getHurt(int hurt){//受伤
+    public void getHurt(int hurt){//鍙椾激
         blood-=hurt;
     }
-    public void getRecure(int newBlood,int newAttack){//回复
+    public void getRecure(int newBlood,int newAttack){//鍥炲
         blood+=newBlood;
         attack+=newAttack;
     }
-    
+
 }
