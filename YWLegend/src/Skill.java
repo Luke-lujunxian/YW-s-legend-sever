@@ -10,7 +10,9 @@ public class Skill{
         this.description=new_description;
         this.owner=new_owner;
     }
-
+    public Skill(Character new_owner){
+        this.owner=new_owner;
+    }
 
     public int getPower() {
         return power;

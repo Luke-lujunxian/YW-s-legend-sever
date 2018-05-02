@@ -1,7 +1,9 @@
 public class yw_BloodPress extends yw
 {
+        private Character character;
         public String name;
         private String phyle;
+        public Skill skill;
         public Religions religion;
         private String saying;
         private int energy;
@@ -20,5 +22,9 @@ public class yw_BloodPress extends yw
             aRm = attackRange;
             //ability 待实现
             saying = "我的乌玛，曙光已现";
+            character = new Personage();
+            skill = new Skill_yw_BloodPress(energy,(Personage) character);
         }
     }
+
+
