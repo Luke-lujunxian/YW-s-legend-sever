@@ -1,4 +1,5 @@
 public class yw {//有待接口化
+    private Character character;
     public String name;
     private String phyle;
     private String religion;
@@ -19,6 +20,7 @@ public class yw {//有待接口化
             attackRange = 1;
             //ability 待实现
             saying = "这是一个尹巍（出现尹巍时请重启游戏并回报bug）";
+            character = new Personage();
     }
 
     public String getPhyle(){
@@ -51,6 +53,9 @@ public class yw {//有待接口化
     public void getRecure(int newBlood,int newAttack){//回复
         blood+=newBlood;
         attack+=newAttack;
+    }
+    public void skill() {
+
     }
 
 }
