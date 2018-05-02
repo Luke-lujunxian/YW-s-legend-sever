@@ -12,7 +12,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file leaf-file-name="Skill.java" pinned="false" current-in-tab="false">
+=======
+<<<<<<< HEAD
+      <file leaf-file-name="yw_Ghost.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yw_Ghost.java">
+=======
+      <file leaf-file-name="Skill.java" pinned="false" current-in-tab="true">
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
         <entry file="file://$PROJECT_DIR$/src/Skill.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="494">
@@ -49,6 +57,7 @@
       </file>
       <file leaf-file-name="yw_Devourer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/yw_Devourer.java">
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="13" selection-start-column="13" selection-end-column="13" />
@@ -56,6 +65,14 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file leaf-file-name="yw.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/yw.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="20" lean-forward="true" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+              <folding />
+=======
       <file leaf-file-name="yw_DevourerLair.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/yw_DevourerLair.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -86,8 +103,14 @@
       <file leaf-file-name="yw.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/yw.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="418">
               <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+=======
+            <state relative-caret-position="561">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
             </state>
           </provider>
         </entry>
@@ -95,12 +118,23 @@
       <file leaf-file-name="yw_BloodPress.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/yw_BloodPress.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="627">
               <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="e#861#862#0" expanded="true" />
                 <element signature="e#904#905#0" expanded="true" />
               </folding>
+=======
+<<<<<<< HEAD
+            <state relative-caret-position="330">
+              <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+              <folding />
+=======
+            <state relative-caret-position="513">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
             </state>
           </provider>
         </entry>
@@ -108,12 +142,30 @@
       <file leaf-file-name="Skill_yw_StrangeAltar.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Skill_yw_StrangeAltar.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="15">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+=======
             <state>
               <caret column="13" selection-start-column="13" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="yw_StrangeAltar.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yw_StrangeAltar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+            </state>
+          </provider>
+        </entry>
+      </file>
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -131,12 +183,27 @@
         <option value="$PROJECT_DIR$/src/skill_yw_BloodPress.java" />
         <option value="$PROJECT_DIR$/src/Character.java" />
         <option value="$PROJECT_DIR$/src/Personage.java" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/src/Skill_yw_BloodPress.java" />
+        <option value="$PROJECT_DIR$/src/Skill_yw_StrangeAltar.java" />
+        <option value="$PROJECT_DIR$/src/Legion.java" />
+        <option value="$PROJECT_DIR$/test/src/t1.java" />
+        <option value="$PROJECT_DIR$/src/p1/t1.java" />
+        <option value="$PROJECT_DIR$/src/Creature.java" />
+        <option value="$PROJECT_DIR$/src/t1.java" />
+=======
         <option value="$PROJECT_DIR$/src/Creature.java" />
         <option value="$PROJECT_DIR$/src/Skill_yw_StrangeAltar.java" />
         <option value="$PROJECT_DIR$/src/Skill.java" />
         <option value="$PROJECT_DIR$/src/Skill_yw_BloodPress.java" />
         <option value="$PROJECT_DIR$/src/yw.java" />
         <option value="$PROJECT_DIR$/src/yw_BloodPress.java" />
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/src/Skill_yw_BloodPress.java" />
+        <option value="$PROJECT_DIR$/src/Skill.java" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
       </list>
     </option>
   </component>
@@ -166,6 +233,11 @@
               <item name="YWLegend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="YWLegend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="YWLegend" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -174,8 +246,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+<<<<<<< HEAD
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+=======
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -306,6 +384,27 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/src/yw.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+=======
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+    <entry file="file://$PROJECT_DIR$/src/Legion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
     <entry file="file://$PROJECT_DIR$/src/Map.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -318,6 +417,7 @@
         <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
           <folding>
+            <element signature="e#50#51#0" expanded="true" />
             <element signature="e#78#79#0" expanded="true" />
             <element signature="e#117#118#0" expanded="true" />
             <element signature="e#151#152#0" expanded="true" />
@@ -373,6 +473,7 @@
         <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
           <folding>
+            <element signature="e#50#51#0" expanded="true" />
             <element signature="e#78#79#0" expanded="true" />
             <element signature="e#117#118#0" expanded="true" />
             <element signature="e#151#152#0" expanded="true" />
@@ -414,6 +515,7 @@
         <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
           <folding>
+            <element signature="e#50#51#0" expanded="true" />
             <element signature="e#78#79#0" expanded="true" />
             <element signature="e#117#118#0" expanded="true" />
             <element signature="e#151#152#0" expanded="true" />
@@ -476,6 +578,7 @@
         <state relative-caret-position="30">
           <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
           <folding>
+            <element signature="e#50#51#0" expanded="true" />
             <element signature="e#78#79#0" expanded="true" />
             <element signature="e#117#118#0" expanded="true" />
             <element signature="e#151#152#0" expanded="true" />
@@ -526,6 +629,8 @@
     <entry file="file://$PROJECT_DIR$/src/yw.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+<<<<<<< HEAD
+=======
     <entry file="file://$PROJECT_DIR$/src/Map.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -533,6 +638,7 @@
         </state>
       </provider>
     </entry>
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
     <entry file="file://$PROJECT_DIR$/src/Skill.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -581,6 +687,24 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/src/Skill.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Skill_yw_BloodPress.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="e#306#307#0" expanded="true" />
+            <element signature="e#383#384#0" expanded="true" />
+          </folding>
+=======
     <entry file="file://$PROJECT_DIR$/src/yw_Ghost.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -599,11 +723,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="24" selection-start-line="24" selection-end-line="24" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/yw_Devourer.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="45">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <marker date="1525245608000" expanded="false" signature="159:227" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Legion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+=======
         <state>
           <caret column="13" selection-start-column="13" selection-end-column="13" />
         </state>
@@ -611,8 +751,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/yw_BloodThirstier.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="247">
           <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+=======
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
         </state>
       </provider>
     </entry>
@@ -630,7 +776,34 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Skill_yw_StrangeAltar.java">
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/src/Personage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yw_StrangeAltar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+          <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/src/yw.java">
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="13" selection-start-column="13" selection-end-column="13" />
@@ -648,9 +821,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="13" selection-start-column="13" selection-end-column="13" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Skill.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="494">
@@ -666,14 +841,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="14" column="54" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="54" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Creature.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+        <state relative-caret-position="152">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
           <folding>
-            <element signature="e#306#307#0" expanded="true" />
-            <element signature="e#383#384#0" expanded="true" />
+            <element signature="e#50#51#0" expanded="true" />
+            <element signature="e#78#79#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#151#152#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/yw_BloodPress.java">
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/src/p1/t1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/t1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yw.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="20" lean-forward="true" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Skill.java">
+>>>>>>> cbf6f8ec24530bfd0770c0bb4886aaf9dc467e02
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
           <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
@@ -681,15 +896,87 @@
             <element signature="e#861#862#0" expanded="true" />
             <element signature="e#904#905#0" expanded="true" />
           </folding>
+>>>>>>> a2ba15d474c58e349d3281ecfd445ed8f9244528
         </state>
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>test</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="ProjectJDKs.UI">
         <settings>
           <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
           <splitter-proportions>
             <option name="proportions">
               <list>
