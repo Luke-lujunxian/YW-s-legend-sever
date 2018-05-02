@@ -3,6 +3,6 @@ public class Skill_yw_StrangeAltar extends Skill{
         super(new_name,new_power,new_description,new_owner);
     }
     public void hurtYouCrops() {
-        
+
     }
 }
