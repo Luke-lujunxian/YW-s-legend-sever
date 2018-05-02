@@ -1,10 +1,10 @@
-public class Skill implements Character {
-    private String name;
-    private int power;
-    private String description;
-    private Character owner;
+public class Skill{
+    protected String name;
+    protected int power;
+    protected String description;
+    protected Character owner;
 
-    Skill(String new_name, int new_power, String new_description, Character new_owner){
+    public Skill(String new_name, int new_power, String new_description, Character new_owner){
         this.name=new_name;
         this.power=new_power;
         this.description=new_description;
