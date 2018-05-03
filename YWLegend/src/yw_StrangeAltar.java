@@ -3,6 +3,7 @@ public class yw_StrangeAltar extends yw
     public String name;
     private String phyle;
     public Religions religion;
+    public Skill_yw_StrangeAltar skill;
     private String saying;
     private int energy;
     private int blood;
@@ -20,5 +21,9 @@ public class yw_StrangeAltar extends yw
         aRm = attackRange;
         //ability 待实现
         saying = "我的乌玛，曙光已现";
+    }
+
+    public void Skill() {
+        skill.hurtYouCrops();
     }
 }
