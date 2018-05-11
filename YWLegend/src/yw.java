@@ -1,4 +1,4 @@
-public class yw {//有待接口化
+public class yw implements Character{//有待接口化
     private Character character;
     public String name;
     private String phyle;
@@ -8,6 +8,8 @@ public class yw {//有待接口化
     private int blood;
     private int attack;
     private int attackRange;
+    private int currentHP;
+
     public yw(){
     }
     public yw(String yname,String yphyle,String yreligion){
@@ -35,12 +37,14 @@ public class yw {//有待接口化
     public int getEnergy(){
         return this.energy;
     }
+    public void setEnergy(int energy) { this.energy = energy; }
     public int getAttack(){
         return this.attack;
     }
     public int getAttackRange(){
         return this.attackRange;
     }
+    public void setAttackRange(int attackRange) { this.attackRange = attackRange; }
     public String getInfo(){//实际数据投影
         return name+" ("+energy+"/"+blood+"/"+attack+"/"+attackRange+")";
     }
@@ -57,5 +61,17 @@ public class yw {//有待接口化
     public void skill() {
 
     }
-
+    public void set(String d,int v) {
+        if(d.equals("power")) energy=v;
+        else if(d.equals("HP")) blood=v;
+        else if(d.equals("currentHP")) currentHP=v;
+        else if(d.equals("ATK")) attack=v;
+    }
+    public int get(String d) {
+        if(d.equals("power")) return energy;
+        else if(d.equals("HP")) return blood;
+        else if(d.equals("currentHP")) return currentHP;
+        else if(d.equals("ATK")) return attack;
+        return -1;
+    }
 }
