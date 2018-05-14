@@ -1,4 +1,4 @@
-public class ChangeCurrentHP {
+public class ChangeCurrentHP implements Skill{
     private Skill basic;
     private int addHP;
     public ChangeCurrentHP(Skill bs,int hp) {

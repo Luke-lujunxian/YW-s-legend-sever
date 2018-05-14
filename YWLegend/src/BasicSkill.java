@@ -3,9 +3,9 @@ public class BasicSkill implements Skill{
     private Personage owner;
     private Character target;
 
-    public BasicSkill(int new_power, Personage new_owner){
+    public BasicSkill(int new_power, Character target){
         this.power=new_power;
-        this.owner=new_owner;
+        this.target=target;
     }
     //getter and setter
     public Personage getOwner() { return owner; }

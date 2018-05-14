@@ -1,4 +1,4 @@
-public class ChangePower {
+public class ChangePower implements Skill{
     private Skill basic;
     private int addPower;
     public ChangePower(Skill bs,int p) {
