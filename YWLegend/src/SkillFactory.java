@@ -1,11 +1,14 @@
 public class SkillFactory {
 <<<<<<< HEAD
+<<<<<<< HEAD
     public static Skill createSkill(int type, Character target1, Character target2, Creature target3) {
         /*
         target1 target2 target3 三个目标来供修改
         若不需要则传入null
          */
 =======
+=======
+>>>>>>> a9f594b43f41593f6c0e936c49957ab3d085a89a
     /*
         Planning:
      */
