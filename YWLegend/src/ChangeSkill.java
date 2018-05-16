@@ -1,4 +1,4 @@
-public class ChangeSkill {
+public class ChangeSkill implements Skill{
     private Skill basic;
     private Skill newSkill;
     public ChangeSkill(Skill bs,Skill s) {

@@ -1,4 +1,4 @@
-public class ChangeRange {
+public class ChangeRange implements Skill{
     private Skill basic;
     private int addRange;
     public ChangeRange(Skill bs, int d) {

@@ -1,4 +1,4 @@
-public class ChangeATK {
+public class ChangeATK implements Skill {
     private Skill basic;
     private int addATK;
     public ChangeATK(Skill bs,int atk) {

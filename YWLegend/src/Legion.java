@@ -1,3 +1,5 @@
+import javax.print.DocFlavor;
+
 public class Legion {
     /*
         Planning: 使用对象Array完成军团legion的组成
@@ -12,6 +14,7 @@ public class Legion {
     public int[][] yw_pos;
     public String[][] specialYw_pos;//yw使用二维数组储存信息，一行为一个yw长度为yw成员变量个数，列数位yw个数
     private yw[] characters;
+    private Personage leader;
 
     Legion(){
         /*
@@ -26,23 +29,24 @@ public class Legion {
             characters[i]=null;
         }
     }
-    Legion(yw character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){
+    Legion(Personage character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){
         /*
             chara_pos=new int[2];
             yw_pos=new int[3][3];
             specialChara_pos=new String[2];
             specialYw_pos=new String[3][2];
          */
-        characters=new yw[5];
+        characters=new yw[4];
         initial_status(character,placement_1,placement_2,placement_3,placement_4,pos_x,pos_y);
         output_status();
     }
-    public void initial_status(yw character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){//初始化信息，欲待完善
-        characters[0]=character;
-        characters[1]=placement_1;
-        characters[2]=placement_2;
-        characters[3]=placement_3;
-        characters[4]=placement_4;
+    public void initial_status(Personage character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){//初始化信息，欲待完善
+        //characters[0]=character;
+        leader=character;
+        characters[0]=placement_1;
+        characters[1]=placement_2;
+        characters[2]=placement_3;
+        characters[3]=placement_4;
         Legion_pos[0]=pos_x;
         Legion_pos[1]=pos_y;
     }

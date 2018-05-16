@@ -6,7 +6,7 @@ public class Map {
      */
     public Legion[][] mapArray;
     Map(){
-        mapArray=new Legion[15][15];
+        mapArray=new Legion[5][5];
         for(int i=0;i<mapArray.length;i++){
             for(int j=0;j<mapArray[0].length;j++){
                 mapArray[i][j]=null;

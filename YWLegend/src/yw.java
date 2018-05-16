@@ -1,4 +1,5 @@
 public class yw implements Character{//有待接口化
+    
     private Character character;
     public String name;
     private String phyle;
