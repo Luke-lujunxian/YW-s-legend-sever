@@ -1,10 +1,146 @@
 public class SkillFactory {
+<<<<<<< HEAD
+    public static Skill createSkill(int type, Character target1, Character target2, Creature target3) {
+        /*
+        target1 target2 target3 三个目标来供修改
+        若不需要则传入null
+         */
+=======
+    /*
+        Planning:
+     */
     public static Skill createSkill(int type, Character target) {
+>>>>>>> a9f594b43f41593f6c0e936c49957ab3d085a89a
         switch (type) {
-            case 0: return new ChangeCurrentHP(new ChangePower(new BasicSkill(0,target),50),-3);
-            //case 1: return new ;
-            case 2: return new ChangePower(new BasicSkill(0,target),25);
-            case 3: return new ChangeHP(new BasicSkill(0,target),-2);
+            /*
+            鲜血榨汁机 唤魔 械宗 （25/0/3/0） 每个中回合结束时对自己的人物造成三点伤害，并获得50点能量
+            */
+            case 0: return new ChangeCurrentHP(new ChangePower(new BasicSkill(0,target1),50),-3);
+
+            /*
+           	奇怪的祭坛 唤魔 神宗 （75/0/3/0） 在己方回合每牺牲一个友方随从，便获得50点能量（最多牺牲五个）
+            */
+            case 1: return new ChangePower(new BasicSkill(0,target1),50);
+
+            /*
+           	邪能收集台 唤魔 法宗 （25/0/5/0）每个中回合结束时，获得25点能量
+            */
+            case 2: return new ChangePower(new BasicSkill(0,target1),25);
+
+            /*
+           	淘气的小鬼 唤魔 械宗 （25/2/1/2） 战吼：指定一个友方所从，对其造成两点伤害
+            */
+            case 3: return new ChangeHP(new BasicSkill(0,target1),-2);
+
+            /*
+           	嗜血者 唤魔 神宗 （200/5/5/2-3） 战吼：对所有角色造成一点伤害，每有一个角色死亡则获得攻击力加一血加一
+            */
+            case 4: return new ChangeHP(new ChangeATK(new BasicSkill(0,target1),1),1);
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	地狱之门 唤魔 法宗 （300/0/0/0）战吼：以自己为中心3x3的范围内，对所有角色造成三点伤害
+            */
+            case 6: return new CreateCreature(new BasicSkill(0,target1),target3);
+
+            /*
+           	替死冤魂 唤魔 法宗 （300/4/10/2-3）战吼：选择一个友方yw，若该yw在敌方回合死亡，则使替死幽魂死亡，友方yw复原原来血量的一半（四舍五入）
+            */
+            case 7: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
+
+            /*
+           	被诅咒的封印 唤魔 神宗（500/0/25/0）在回合结束时若己方人物血量正好等于五点，则杀死友方人物，将其替代为造物者
+            */
+            //case 5: return new ;
         }
         return null;
     }

@@ -1,4 +1,7 @@
 public class BasicSkill implements Skill{
+    /*
+        Planning:
+     */
     private int power;
     private Personage owner;
     private Character target;

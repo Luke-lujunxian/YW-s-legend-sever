@@ -3,14 +3,16 @@ public class yw_StrangeAltar extends yw
     public String name;
     private String phyle;
     public Religions religion;
-    public Skill_yw_StrangeAltar skill;
+    public Skill skill;
     private String saying;
     private int energy;
     private int blood;
     private int attack;
     private int attackRange;
     private int aRm;
-    public yw_StrangeAltar(){
+    private Character owner;
+
+    public yw_StrangeAltar(Character new_owner){
         name = "奇怪的祭坛";
         phyle = "唤魔";
         religion = new Reli_Godnism();
@@ -19,11 +21,9 @@ public class yw_StrangeAltar extends yw
         blood = 3;
         attackRange = 0;
         aRm = attackRange;
-        //ability 待实现
         saying = "我的乌玛，曙光已现";
+       // skill = SkillFactory.createSkill(1,)
     }
 
-    public void Skill() {
-        skill.hurtYouCrops();
-    }
+    //public void Skill() {skill.hurtYouCrops();}
 }

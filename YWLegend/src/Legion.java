@@ -1,5 +1,3 @@
-import javax.print.DocFlavor;
-
 public class Legion {
     /*
         Planning: 使用对象Array完成军团legion的组成
@@ -9,10 +7,10 @@ public class Legion {
         4. 访问器根绝前端需求输出yw对象内部的成员量
      */
     public int[] Legion_pos={0,0};//军团位置（即为军团所处格子的位置）
-    public int[] chara_pos;//计划用数组来储存角色信息和yw信息
-    public String[] specialChara_pos;
-    public int[][] yw_pos;
-    public String[][] specialYw_pos;//yw使用二维数组储存信息，一行为一个yw长度为yw成员变量个数，列数位yw个数
+    //public int[] chara_pos;//计划用数组来储存角色信息和yw信息
+    //public String[] specialChara_pos;
+    //public int[][] yw_pos;
+    //public String[][] specialYw_pos;//yw使用二维数组储存信息，一行为一个yw长度为yw成员变量个数，列数位yw个数
     private yw[] characters;
     private Personage leader;
 

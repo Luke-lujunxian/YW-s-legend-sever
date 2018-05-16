@@ -1,4 +1,7 @@
 public class ChangeRange implements Skill{
+    /*
+    Planning:
+     */
     private Skill basic;
     private int addRange;
     public ChangeRange(Skill bs, int d) {

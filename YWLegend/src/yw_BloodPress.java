@@ -3,7 +3,7 @@ public class yw_BloodPress extends yw
         private Character character;
         public String name;
         private String phyle;
-        public Skill_yw_BloodPress skill;
+        public Skill skill;
         public Religions religion;
         private String saying;
         private int energy;
@@ -11,7 +11,9 @@ public class yw_BloodPress extends yw
         private int attack;
         private int attackRange;
         private int aRm;
-        public yw_BloodPress(){
+        private Character owner;
+
+        public yw_BloodPress(Character new_owner){
             name = "鲜血榨汁机";
             phyle = "唤魔";
             religion = new Reli_Machinism();
@@ -23,10 +25,10 @@ public class yw_BloodPress extends yw
             //ability 待实现
             saying = "我的乌玛，曙光已现";
             character = new Personage();
-            skill = new Skill_yw_BloodPress(energy,(Personage) character);
+            skill = SkillFactory.createSkill(0,new_owner,null,null);
         }
         public void Skill() {
-           skill.selfHurting();
+           skill.startSkill();
         }
     }
 
