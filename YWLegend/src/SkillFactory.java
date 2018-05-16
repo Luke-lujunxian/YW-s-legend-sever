@@ -80,6 +80,9 @@ public class SkillFactory {
             case 11: return new ChangeHP(new BasicSkill(0, target1), -2);
 
 
+
+
+
 //下方开始是潜行
             /*
            	被诅咒的封印 潜行 神宗（500/0/25/0）在回合开始时，己方军团格子上有两只需消耗500能量以上的一模一样的yw（能量/攻击/血/攻击距离），
@@ -146,6 +149,37 @@ public class SkillFactory {
            	在对方第一次攻击完时，则会消失
             */
             //case 23:;
+
+
+
+
+
+//下方开始是undefined
+            /*
+           	FailTrial1 (25/0/3/0)每个中回合结束时，获得25点能量
+            */
+            case 24: return new ChangePower(new BasicSkill(0,target1),25);
+
+            /*
+            FailTrial2 (50/0/3/0)每个中回合开始时，获得50点能量
+             */
+            case 25: return new ChangePower(new BasicSkill(0,target1),50);
+
+            /*
+            FailTrial8 (100/2/3/2)每个中回合结束时，人物恢复3点血
+            */
+            case 26: return new ChangeHP(new BasicSkill(0,target1),3);
+
+            /*
+            1.FailTrial9 (100/5/6/2-3)每个中回合结束时，人物扣2点血
+            */
+            case 27: return new ChangeHP(new BasicSkill(0,target1),-2);
+
+            /*
+            FailTrial10 (500/0/0/0)消灭一个yw
+            */
+            case 28: return new BasicSkill(0,target1);
+
         }
         return null;
     }
