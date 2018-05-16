@@ -9,6 +9,7 @@ public class yw_FailTrial7 extends yw{
     private int attackRange;
     private int aRm;
     private Character owner;
+
     public yw_FailTrial7(){
         name = "FailTrial7";
         phyle = "";
