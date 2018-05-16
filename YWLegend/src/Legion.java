@@ -43,7 +43,6 @@ public class Legion {
         initial_status(character,placement_1,placement_2,placement_3,placement_4,pos_x,pos_y);
         setVisible(true);
         output_status();
-
     }
     public boolean getVisible(){//可见性访问器
         return this.visible;
@@ -55,9 +54,13 @@ public class Legion {
         //characters[0]=character;
         leader=character;
         characters[0]=placement_1;
+        placement_1.yw_pos=0;
         characters[1]=placement_2;
+        placement_2.yw_pos=1;
         characters[2]=placement_3;
+        placement_3.yw_pos=2;
         characters[3]=placement_4;
+        placement_4.yw_pos=3;
         Legion_pos[0]=pos_x;
         Legion_pos[1]=pos_y;
     }
@@ -73,6 +76,8 @@ public class Legion {
         changYwPosition(n,n_new);
     }
     private void changYwPosition(int old_position,int new_position){//改变军团中yw的位置
+        characters[old_position].yw_pos=new_position;
+        characters[new_position].yw_pos=old_position;
         yw temp=characters[old_position];
         characters[old_position]=characters[new_position];
         characters[new_position]=temp;

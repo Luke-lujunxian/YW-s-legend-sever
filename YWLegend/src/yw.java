@@ -10,6 +10,7 @@ public class yw implements Character{//有待接口化
     private int attack;
     private int attackRange;
     private int currentHP;
+    public int yw_pos;
 
     public yw(){
     }

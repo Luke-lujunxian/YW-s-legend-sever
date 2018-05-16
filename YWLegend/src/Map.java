@@ -20,7 +20,7 @@ public class Map {
         initial_MapArray(Player_1,Player_2);
         //setVisible();
     }
-    private void initial_MapArray(Legion Player_1,Legion Player_2){
+    private void initial_MapArray(Legion Player_1,Legion Player_2){//地图初始化，传入两个Player军团
         for(int i=0;i<mapArray.length;i++){
             for(int j=0;j<mapArray[0].length;j++){
                 //检索Legion对象，赋值
@@ -30,7 +30,7 @@ public class Map {
             }
         }
     }
-    public void change_MapArray(Legion changedLegion){
+    public void change_MapArray(Legion changedLegion){//对于玩家本身，其军团经历过的格子会变为可见
         int i=changedLegion.temp_pos[0];
         int j=changedLegion.temp_pos[1];
         mapArray[i][j].setVisible(true);
