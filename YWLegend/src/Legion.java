@@ -7,14 +7,16 @@ public class Legion {
         4. 访问器根绝前端需求输出yw对象内部的成员量
      */
     public int[] Legion_pos={0,0};//军团位置（即为军团所处格子的位置）
+    int[] temp_pos=new int[2];//军团改变前位置
     //public int[] chara_pos;//计划用数组来储存角色信息和yw信息
     //public String[] specialChara_pos;
     //public int[][] yw_pos;
     //public String[][] specialYw_pos;//yw使用二维数组储存信息，一行为一个yw长度为yw成员变量个数，列数位yw个数
     private yw[] characters;
     private Personage leader;
+    private boolean visible;
 
-    Legion(){
+    Legion(){//默认构造器，用于构造地图，默认为不可见
         /*
             chara_pos=new int[3];
             yw_pos=new int[3][3];
@@ -22,11 +24,14 @@ public class Legion {
             specialYw_pos=new String[3][2];
          */
         //Legion_pos={0,0};
-        characters=new yw[5];
+        temp_pos=Legion_pos;
+        characters=new yw[4];
         for(int i=0;i<characters.length;i++){
             characters[i]=null;
         }
+        setVisible(false);//默认不可见
     }
+
     Legion(Personage character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){
         /*
             chara_pos=new int[2];
@@ -36,9 +41,17 @@ public class Legion {
          */
         characters=new yw[4];
         initial_status(character,placement_1,placement_2,placement_3,placement_4,pos_x,pos_y);
+        setVisible(true);
         output_status();
+
     }
-    public void initial_status(Personage character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){//初始化信息，欲待完善
+    public boolean getVisible(){//可见性访问器
+        return this.visible;
+    }
+    public void setVisible(boolean visible){
+        this.visible=visible;
+    }
+    private void initial_status(Personage character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){//初始化信息，欲待完善
         //characters[0]=character;
         leader=character;
         characters[0]=placement_1;
@@ -54,9 +67,21 @@ public class Legion {
     public void detect_status(){//检测信息变化，现在发现这个好像没什么用
 
     }
-    public void change_status(int n,yw placement_n,int newPos_x,int newPos_y){//改变对应信息
-        characters[n]=placement_n;
+    public void change_status(int n,int n_new,yw placement_n,int newPos_x,int newPos_y){//改变对应信息
+        //characters[n]=placement_n;
+        changePosition(newPos_x,newPos_y);
+        changYwPosition(n,n_new);
+    }
+    private void changYwPosition(int old_position,int new_position){//改变军团中yw的位置
+        yw temp=characters[old_position];
+        characters[old_position]=characters[new_position];
+        characters[new_position]=temp;
+    }
+    private void changePosition(int newPos_x,int newPos_y){//改变军团在Map类中的位置
+        temp_pos[0]=Legion_pos[0];
+        temp_pos[1]=Legion_pos[1];
         Legion_pos[0]=newPos_x;
         Legion_pos[1]=newPos_y;
+        //return temp_pos;
     }
 }
