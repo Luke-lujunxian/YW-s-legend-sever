@@ -1,6 +1,7 @@
-public class yw_DevourerLair extends yw{
+public class yw_WitheredDemonFlower extends yw{
     public String name;
     private String phyle;
+    public Skill skill;
     public Religions religion;
     private String saying;
     private int energy;
@@ -9,15 +10,15 @@ public class yw_DevourerLair extends yw{
     private int attackRange;
     private int aRm;
     private Character owner;
-    public yw_DevourerLair(){
-        name = "吞噬者的巢穴";
+    public yw_WitheredDemonFlower(){
+        name = "凋谢的恶魔之花";
         phyle = "唤魔";
-        religion = new Reli_Magicism();
-        energy = 350;
-        attack = 0;
-        blood = 0;
-        attackRange = 0;
-        aRm = attackRange;
+        religion = new Reli_Machinism();
+        energy = 125;
+        attack = 5;
+        blood = 5;
+        attackRange = 2;
+        aRm = 3;
         //ability 待实现
         saying = "我的乌玛，曙光已现";
     }

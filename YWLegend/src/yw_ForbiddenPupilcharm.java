@@ -1,4 +1,4 @@
-public class yw_DevourerLair extends yw{
+public class yw_ForbiddenPupilcharm extends yw{
     public String name;
     private String phyle;
     public Religions religion;
@@ -9,13 +9,13 @@ public class yw_DevourerLair extends yw{
     private int attackRange;
     private int aRm;
     private Character owner;
-    public yw_DevourerLair(){
-        name = "吞噬者的巢穴";
-        phyle = "唤魔";
-        religion = new Reli_Magicism();
-        energy = 350;
+    public yw_ForbiddenPupilcharm(){
+        name = "禁忌的瞳术";
+        phyle = "潜行";
+        religion = new Reli_Godnism();
+        energy = 200;
         attack = 0;
-        blood = 0;
+        blood = 25;
         attackRange = 0;
         aRm = attackRange;
         //ability 待实现

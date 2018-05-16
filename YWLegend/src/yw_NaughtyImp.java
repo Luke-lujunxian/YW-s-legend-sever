@@ -8,6 +8,7 @@ public class yw_NaughtyImp extends yw {
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_NaughtyImp(){
         name = "淘气的小鬼";
         phyle = "唤魔";

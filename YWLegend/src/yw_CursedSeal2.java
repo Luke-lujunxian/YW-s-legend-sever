@@ -1,4 +1,4 @@
-public class yw_DevourerLair extends yw{
+public class yw_CursedSeal2 extends yw{
     public String name;
     private String phyle;
     public Religions religion;
@@ -9,16 +9,17 @@ public class yw_DevourerLair extends yw{
     private int attackRange;
     private int aRm;
     private Character owner;
-    public yw_DevourerLair(){
-        name = "吞噬者的巢穴";
-        phyle = "唤魔";
-        religion = new Reli_Magicism();
-        energy = 350;
+    public yw_CursedSeal2(){
+        name = "被诅咒的封印";
+        phyle = "潜行";
+        religion = new Reli_Godnism();
+        energy = 500;
         attack = 0;
-        blood = 0;
+        blood = 25;
         attackRange = 0;
         aRm = attackRange;
         //ability 待实现
         saying = "我的乌玛，曙光已现";
     }
+
 }

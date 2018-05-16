@@ -8,6 +8,7 @@ public class yw_BloodThirstier extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_BloodThirstier(){
         name = "嗜血者";
         phyle = "唤魔";

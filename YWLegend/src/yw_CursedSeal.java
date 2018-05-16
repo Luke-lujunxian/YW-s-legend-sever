@@ -8,6 +8,7 @@ public class yw_CursedSeal extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_CursedSeal(){
         name = "被诅咒的封印";
         phyle = "唤魔";

@@ -8,6 +8,7 @@ public class yw_HeilGate extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_HeilGate(){
         name = "地狱之门";
         phyle = "唤魔";
