@@ -8,6 +8,7 @@ public class yw_EvilEnergyCollector extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_EvilEnergyCollector(){
         name = "邪能收集台";
         phyle = "唤魔";

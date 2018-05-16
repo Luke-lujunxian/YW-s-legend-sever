@@ -8,6 +8,7 @@ public class yw_Ghost extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_Ghost(){
         name = "替死冤魂";
         phyle = "唤魔";

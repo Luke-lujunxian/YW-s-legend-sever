@@ -8,6 +8,7 @@ public class yw_NightmareMonster extends yw{
     private int attack;
     private int attackRange;
     private int aRm;
+    private Character owner;
     public yw_NightmareMonster(){
         name = "梦魇巨怪";
         phyle = "唤魔";

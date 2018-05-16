@@ -1,9 +1,7 @@
-public class yw_StrangeAltar extends yw
-{
+public class yw_CursedSeal2 extends yw{
     public String name;
     private String phyle;
     public Religions religion;
-    public Skill skill;
     private String saying;
     private int energy;
     private int blood;
@@ -11,19 +9,17 @@ public class yw_StrangeAltar extends yw
     private int attackRange;
     private int aRm;
     private Character owner;
-
-    public yw_StrangeAltar(Character new_owner){
-        name = "奇怪的祭坛";
-        phyle = "唤魔";
+    public yw_CursedSeal2(){
+        name = "被诅咒的封印";
+        phyle = "潜行";
         religion = new Reli_Godnism();
-        energy = 75;
+        energy = 500;
         attack = 0;
-        blood = 3;
+        blood = 25;
         attackRange = 0;
         aRm = attackRange;
+        //ability 待实现
         saying = "我的乌玛，曙光已现";
-       // skill = SkillFactory.createSkill(1,)
     }
 
-    //public void Skill() {skill.hurtYouCrops();}
 }
