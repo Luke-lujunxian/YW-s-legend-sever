@@ -1,4 +1,7 @@
 public class CreateCreature {
+    /*
+        Planning:
+     */
     private Skill basic;
     private Creature creature;
     public CreateCreature(Skill bs, Creature c) {

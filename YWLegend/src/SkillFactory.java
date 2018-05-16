@@ -1,4 +1,7 @@
 public class SkillFactory {
+    /*
+        Planning:
+     */
     public static Skill createSkill(int type, Character target) {
         switch (type) {
             case 0: return new ChangeCurrentHP(new ChangePower(new BasicSkill(0,target),50),-3);

@@ -1,4 +1,7 @@
 public class ChangeSkill implements Skill{
+    /*
+        Planning:
+     */
     private Skill basic;
     private Skill newSkill;
     public ChangeSkill(Skill bs,Skill s) {

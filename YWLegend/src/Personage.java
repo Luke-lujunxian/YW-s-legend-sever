@@ -1,4 +1,7 @@
 public class Personage extends Creature implements Character {
+    /*
+        Planning: 战争迷雾
+     */
     private int power;
     private int HP;
     private int currentHP;

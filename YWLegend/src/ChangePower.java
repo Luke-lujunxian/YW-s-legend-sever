@@ -1,4 +1,7 @@
 public class ChangePower implements Skill{
+    /*
+        Planning:
+    */
     private Skill basic;
     private int addPower;
     public ChangePower(Skill bs,int p) {

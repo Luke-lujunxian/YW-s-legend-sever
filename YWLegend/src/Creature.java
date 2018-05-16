@@ -1,4 +1,7 @@
 public class Creature {
+    /*
+        Planning:
+     */
     public int getBlood() {
         return blood;
     }

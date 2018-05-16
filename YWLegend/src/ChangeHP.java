@@ -1,4 +1,7 @@
 public class ChangeHP implements Skill{
+    /*
+    Planning:
+     */
     private Skill basic;
     private int addHP;
     public ChangeHP(Skill bs,int hp) {
