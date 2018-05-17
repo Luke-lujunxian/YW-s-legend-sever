@@ -4,6 +4,7 @@ public class Map {
         1. 一个军团代表一个格子，如果为空格传入null。总共有两个有效军团格子
         2. 战争迷雾范围
         3. 群体攻击范围
+        * *此地图为全局地图，军团可视化地图在军团类中单独同步
      */
     public Legion[][] mapArray;
 
@@ -15,7 +16,7 @@ public class Map {
             }
         }
     }
-    Map(int n,Legion Player_1,Legion Player_2){//玩家1为主玩家
+    Map(int n,Legion Player_1,Legion Player_2){//全局地图有参构造函数
         mapArray=new Legion[n][n];
         initial_MapArray(Player_1,Player_2);
         //setVisible();
@@ -30,12 +31,23 @@ public class Map {
             }
         }
     }
-    public void change_MapArray(Legion changedLegion){//对于玩家本身，其军团经历过的格子会变为可见
+    public void change_MapArray(Legion changedLegion){
+        //对于玩家本身，其军团经历过的格子会变为可见；同时军团在mapArray数组上的位置会变动
+        mapArray[changedLegion.Legion_pos[0]][changedLegion.Legion_pos[1]]=changedLegion;
+        mapArray[changedLegion.temp_pos[0]][changedLegion.temp_pos[1]]=new Legion();
         int i=changedLegion.temp_pos[0];
         int j=changedLegion.temp_pos[1];
         mapArray[i][j].setVisible(true);
     }
-    public void display_Map(){//Map地图显示信息
-
+    public Legion[][] display_Map(Legion Player){
+        //针对玩家显示Map地图信息,判断主地图mapArray与玩家可见地图Legion_visibleMap的每一个方块
+        Legion[][] temp_visible=new Legion[5][5];
+        for(int i=0;i<mapArray.length;i++){
+            for(int j=0;j<mapArray[0].length;j++){
+                if(Player.getLegion_visibleMap()[i][j]) temp_visible[i][j]=mapArray[i][j];
+                else temp_visible[i][j]=new Legion();
+            }
+        }
+        return temp_visible;
     }
 }
