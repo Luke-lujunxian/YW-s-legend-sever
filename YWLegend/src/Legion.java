@@ -12,9 +12,10 @@ public class Legion {
     //public String[] specialChara_pos;
     //public int[][] yw_pos;
     //public String[][] specialYw_pos;//yw使用二维数组储存信息，一行为一个yw长度为yw成员变量个数，列数位yw个数
-    private yw[] characters;
-    private Personage leader;
-    private boolean visible;
+    private boolean[][] Legion_visibleMap;
+    private yw[] characters;//
+    private Personage leader;//军团角色
+    private boolean visible;//军团本身的格子是否于全局可见
 
     Legion(){//默认构造器，用于构造地图，默认为不可见
         /*
@@ -25,7 +26,14 @@ public class Legion {
          */
         //Legion_pos={0,0};
         temp_pos=Legion_pos;
+        Legion_visibleMap=new boolean[5][5];
         characters=new yw[4];
+        /*for(int i=0;i<Legion_visibleMap.length;i++){
+            for(int j=0;j<Legion_visibleMap[0].length;j++){
+                Legion_visibleMap[i][j]=false;
+            }
+        }*/
+        setLegion_visibleMap(temp_pos,Legion_pos);
         for(int i=0;i<characters.length;i++){
             characters[i]=null;
         }
@@ -39,10 +47,25 @@ public class Legion {
             specialChara_pos=new String[2];
             specialYw_pos=new String[3][2];
          */
+        temp_pos=Legion_pos;
+        Legion_visibleMap=new boolean[5][5];
         characters=new yw[4];
+        setLegion_visibleMap(temp_pos,Legion_pos);
         initial_status(character,placement_1,placement_2,placement_3,placement_4,pos_x,pos_y);
         setVisible(true);
         output_status();
+    }
+    public void setLegion_visibleMap(int[] temp_pos,int[] Legion_pos){
+        for(int i=0;i<Legion_visibleMap.length;i++){
+            for(int j=0;j<Legion_visibleMap[0].length;j++){
+                if(i==Legion_pos[0]&&j==Legion_pos[j]) Legion_visibleMap[i][j]=true;
+                else if(i==temp_pos[0]&&j==temp_pos[j]) Legion_visibleMap[i][j]=true;
+                else Legion_visibleMap[i][j]=false;
+            }
+        }
+    }
+    public boolean[][] getLegion_visibleMap(){
+        return this.Legion_visibleMap;
     }
     public boolean getVisible(){//可见性访问器
         return this.visible;
@@ -64,16 +87,17 @@ public class Legion {
         Legion_pos[0]=pos_x;
         Legion_pos[1]=pos_y;
     }
-    public void output_status(){//输出内部信息根据前端要求做详细代码处理
+    private void output_status(){//输出内部信息根据前端要求做详细代码处理
 
     }
-    public void detect_status(){//检测信息变化，现在发现这个好像没什么用
+    private void detect_status(){//检测信息变化，现在发现这个好像没什么用
 
     }
     public void change_status(int n,int n_new,yw placement_n,int newPos_x,int newPos_y){//改变对应信息
         //characters[n]=placement_n;
         changePosition(newPos_x,newPos_y);
         changYwPosition(n,n_new);
+        setLegion_visibleMap(temp_pos,Legion_pos);
     }
     private void changYwPosition(int old_position,int new_position){//改变军团中yw的位置
         characters[old_position].yw_pos=new_position;
