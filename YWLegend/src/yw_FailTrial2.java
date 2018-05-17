@@ -9,7 +9,9 @@ public class yw_FailTrial2 extends yw {
     private int attackRange;
     private int aRm;
     private Character owner;
-    public yw_FailTrial2(){
+    private Skill skill;
+
+    public yw_FailTrial2(Character new_owner){
         name = "FailTrial2";
         phyle = "";
         //religion = ""
@@ -20,5 +22,10 @@ public class yw_FailTrial2 extends yw {
         aRm = attackRange;
         //ability 待实现
         saying = "我的乌玛，曙光已现";
+        owner=new_owner;
+        skill = SkillFactory.createSkill(25,owner,null,null);
+    }
+    public void Skill() {
+        skill.startSkill();
     }
 }

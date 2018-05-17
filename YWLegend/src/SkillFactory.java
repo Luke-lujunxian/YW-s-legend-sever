@@ -180,6 +180,19 @@ public class SkillFactory {
             */
             case 28: return new BasicSkill(0,target1);
 
+            /*
+            种族别名：Undefined
+            种族技能：人物攻击（耗费能量25）：人物获得2点攻击和2-3点攻击距离
+            */
+            case 29: return new ChangeATK(new ChangeRange(new BasicSkill(25,target1),2),2);
+
+            /*
+            种族别名：Undefined
+            第二技能：人物回血：中回合开始时，回两点血
+            */
+            case 30: return new ChangeHP(new BasicSkill(0,target1),2);
+
+
         }
         return null;
     }
