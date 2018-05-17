@@ -5,10 +5,17 @@ public class Main {
         return "not good";
     }
 
-    
 
-    public static String middleTurn () {
 
+    public static String middleTurn (String request, Object a, Object b, Object c, Object d, Object e) {
+        switch (request){
+            case "la": {
+
+            }
+            case "ba": {
+
+            }
+        }
         return null;
     }
 
