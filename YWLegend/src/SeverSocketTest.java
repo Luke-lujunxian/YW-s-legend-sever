@@ -31,14 +31,16 @@ public class SeverSocketTest {
 
                     System.out.println("****received message from client******");
 
+                    //向客户端写入数据
+                    writeMsgToClient(connection.getOutputStream(),"123456789");
+
                     //读取客户端传过来的数据  
                     readMessageFromClient(connection.getInputStream());
 
-                    System.out.println("****received message from client end******");
+                    System.out.println("****received message from client end******\n");
 
-                    //向客户端写入数据  
-                    writeMsgToClient(connection.getOutputStream(),"I am server message!!!");
 
+                    connection.getInputStream().close();
                     connection.close();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -72,6 +74,7 @@ public class SeverSocketTest {
         while((a=br.readLine())!=null){
             System.out.println(a);
         }
+
     }
 
     /**
@@ -81,8 +84,9 @@ public class SeverSocketTest {
      */
     private static void writeMsgToClient(OutputStream outputStream, String string) throws IOException {
         Writer writer = new OutputStreamWriter(outputStream);
-        writer.append("I am server message!!!");
+        writer.append(String.format("%4d",string.length()));
+        writer.append(string);
         writer.flush();
-        writer.close();
+        //writer.close();
     }
 }
