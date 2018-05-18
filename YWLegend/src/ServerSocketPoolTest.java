@@ -29,7 +29,7 @@ public class ServerSocketPoolTest  {
             while(true){
                 Socket connection =null;
                 connection=serverSocket.accept();
-                service.submit(new SubThread(connection));
+                service.submit(new SubThread(connection,1));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,8 +53,9 @@ class SubThread extends Thread implements Runnable{
     private String message;
     private int number;
 
-    public SubThread(Socket conSocket){
+    public SubThread(Socket conSocket, int new_number){
         this.connection=conSocket;
+        number=new_number;
     }
 
     public String[] DecodeFromClient(String m){
@@ -80,17 +81,28 @@ class SubThread extends Thread implements Runnable{
 
     public void run(){
         try {
+            /*
+            客户端身份验证
+            */
             message=readMessageFromClient(connection.getInputStream());
             if(message=="HelloIamClient"){
                 writeMsgToClient(connection.getOutputStream(),"FuckYou");
             }
-
+            /*
+            * 初始人物
+            * */
             Personage player1=null;
             Personage player2=null;
 
+            /*
+            * 传入玩家ID
+            * */
             message=readMessageFromClient(connection.getInputStream());
             player1=new Personage(message);
 
+            /*
+            * 接受匹配请求
+            * */
             message=readMessageFromClient(connection.getInputStream());
             if(message=="askformatching"){
                 writeMsgToClient(connection.getOutputStream(),"matchingaccpt");
@@ -121,6 +133,15 @@ class SubThread extends Thread implements Runnable{
             }
             yw[] ywList=new yw[8];
             Construct8YW(ywNameList,ywList,player1);
+            Legion hanLegion=null;
+            if(number==1){
+                hanLegion=new Legion(player1,null,null,null,null,0,0);
+            }
+            if(number==2){
+                hanLegion=new Legion(player1,null,null,null,null,4,4);
+            }
+
+            
 
 
 

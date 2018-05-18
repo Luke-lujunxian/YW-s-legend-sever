@@ -10,6 +10,10 @@ public class Personage extends Creature implements Character {
     private String name;
     private String IDname;
 
+    Personage(){
+
+    }
+
     Personage(String new_IDname){
         IDname=new_IDname;
     }

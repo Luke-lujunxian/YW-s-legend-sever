@@ -47,11 +47,11 @@ public class Main {
             for(int i=0;i<=1;i++) {
                 Socket connection =serverSocket.accept();
                 if(i==0){
-                    new_playerOne=new SubThread(connection);
+                    new_playerOne=new SubThread(connection,1);
                     service.submit(new_playerOne);
                 }
                 if(i==1){
-                    new_playerTwo=new SubThread(connection);
+                    new_playerTwo=new SubThread(connection,2);
                     service.submit(new_playerTwo);
                 }
             }
@@ -68,6 +68,7 @@ public class Main {
         SubThread playerOne=null;
         SubThread playerTwo=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
+        //playerOne.join();
 
     }
 
