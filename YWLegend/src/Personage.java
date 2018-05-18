@@ -7,6 +7,7 @@ public class Personage extends Creature implements Character {
     private int currentHP;
     private int ATK;
     private Skill firstSkill, secondSkill;
+    private String name;
 
     public Skill getSecondSkill() {
         return secondSkill;

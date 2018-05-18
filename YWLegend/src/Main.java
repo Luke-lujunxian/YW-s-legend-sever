@@ -1,3 +1,20 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
 
     public static String beforeGameSelfChecking (String checkingWords) {
@@ -20,9 +37,28 @@ public class Main {
     }
 
 
+    public static void SeverSocketOnlyAcceptTwo(){
+        ServerSocket serverSocket = null;
+        Executor service = Executors.newFixedThreadPool(2);
+        try{
+            System.out.println("***Begin receiving client's message***");
+            for(int i = 0; i<= 1; i++){
+                Socket connection = null;
+
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     public static void main (String[] args) {
-        System.out.println("\u00A1  i");
+        //System.out.println("\u00A1  i");
+        System.out.println("***This is sever!***");
+        System.out.println("***Sever is now active!***");
+
     }
 
 }
