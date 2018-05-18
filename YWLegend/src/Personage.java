@@ -8,7 +8,11 @@ public class Personage extends Creature implements Character {
     private int ATK;
     private Skill firstSkill, secondSkill;
     private String name;
+    private String IDname;
 
+    Personage(String new_IDname){
+        IDname=new_IDname;
+    }
     public Skill getSecondSkill() {
         return secondSkill;
     }
@@ -29,5 +33,9 @@ public class Personage extends Creature implements Character {
         else if(d.equals("currentHP")) return currentHP;
         else if(d.equals("ATK")) return ATK;
         return -1;
+    }
+
+    public String getIDname(){
+        return IDname;
     }
 }

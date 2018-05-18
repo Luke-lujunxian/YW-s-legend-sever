@@ -47,16 +47,85 @@ public class ServerSocketPoolTest  {
 
 
 
-class SubThread extends Thread{
+class SubThread extends Thread implements Runnable{
     private Socket connection;
     private Personage a;
     private String message;
+    private int number;
+
     public SubThread(Socket conSocket){
         this.connection=conSocket;
     }
 
+    public String[] DecodeFromClient(String m){
+        return m.split("\\u00A1");
+    }
+
+    public void Construct8YW(String[] ywNameList, yw[] ywList,Personage player){
+        for(int i=0;i<8;i++){
+            if(ywNameList[i]=="FailTrial1") ywList[i]=new yw_FailTrial1(player);
+            if(ywNameList[i]=="FailTrial2") ywList[i]=new yw_FailTrial2(player);
+            if(ywNameList[i]=="FailTrial3") ywList[i]=new yw_FailTrial3();
+            if(ywNameList[i]=="FailTrial4") ywList[i]=new yw_FailTrial4();
+            if(ywNameList[i]=="FailTrial5") ywList[i]=new yw_FailTrial5();
+            if(ywNameList[i]=="FailTrial6") ywList[i]=new yw_FailTrial6();
+            if(ywNameList[i]=="FailTrial7") ywList[i]=new yw_FailTrial7();
+            if(ywNameList[i]=="FailTrial8") ywList[i]=new yw_FailTrial8(player);
+            if(ywNameList[i]=="FailTrial9") ywList[i]=new yw_FailTrial9(player);
+            if(ywNameList[i]=="FailTrial10") ywList[i]=new yw_FailTrial10();
+            if(ywNameList[i]=="FailTrial11") ywList[i]=new yw_FailTrial11();
+            if(ywNameList[i]=="FailTrial12") ywList[i]=new yw_FailTrial12();
+        }
+    }
+
     public void run(){
         try {
+            message=readMessageFromClient(connection.getInputStream());
+            if(message=="HelloIamClient"){
+                writeMsgToClient(connection.getOutputStream(),"FuckYou");
+            }
+
+            Personage player1=null;
+            Personage player2=null;
+
+            message=readMessageFromClient(connection.getInputStream());
+            player1=new Personage(message);
+
+            message=readMessageFromClient(connection.getInputStream());
+            if(message=="askformatching"){
+                writeMsgToClient(connection.getOutputStream(),"matchingaccpt");
+            }
+
+            /*解码后String数组里面的内容
+            * cardsetinfo
+            * 角色名称   暂时只有一个，所以就直接调用了
+            * yw1
+            * yw2
+            * yw3
+            * yw4
+            * yw5
+            * yw6
+            * yw7
+            * yw8
+            * */
+            message=readMessageFromClient(connection.getInputStream());
+            String[] decodeMessage=DecodeFromClient(message);
+            player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
+
+            /*
+            军团成员初始化
+             */
+            String[] ywNameList=new String[8];
+            for(int i=0;i<8;i++){
+                ywNameList[i]=decodeMessage[i+1];
+            }
+            yw[] ywList=new yw[8];
+            Construct8YW(ywNameList,ywList,player1);
+
+
+
+
+
             writeMsgToClient(connection.getOutputStream(),"connected!");
             message=readMessageFromClient(connection.getInputStream());
             //初始化a，调用主类的初始化方法，传入一个客户端发送的String参数，代表初始化参数，返回一个personage对象

@@ -1,3 +1,4 @@
+import javax.security.auth.Subject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,17 +38,23 @@ public class Main {
     }
 
 
-    public static void SeverSocketOnlyAcceptTwo(){
+    public static void ServerSocketOnlyAcceptTwo(SubThread new_playerOne, SubThread new_playerTwo){
         ServerSocket serverSocket = null;
-        Executor service = Executors.newFixedThreadPool(2);
+        ExecutorService service = Executors.newFixedThreadPool(2);
         try{
             System.out.println("***Begin receiving client's message***");
-            for(int i = 0; i<= 1; i++){
-                Socket connection = null;
-
+            serverSocket=new ServerSocket(5556);
+            for(int i=0;i<=1;i++) {
+                Socket connection =serverSocket.accept();
+                if(i==0){
+                    new_playerOne=new SubThread(connection);
+                    service.submit(new_playerOne);
+                }
+                if(i==1){
+                    new_playerTwo=new SubThread(connection);
+                    service.submit(new_playerTwo);
+                }
             }
-
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -55,9 +62,12 @@ public class Main {
     }
 
     public static void main (String[] args) {
-        //System.out.println("\u00A1  i");
+        System.out.println("\u00A1  i");
         System.out.println("***This is sever!***");
         System.out.println("***Sever is now active!***");
+        SubThread playerOne=null;
+        SubThread playerTwo=null;
+        ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
 
     }
 
