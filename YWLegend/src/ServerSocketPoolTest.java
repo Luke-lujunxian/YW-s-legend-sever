@@ -16,23 +16,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-/**
- * Socket服务器端开启线程测试类 
- * @author zzj
- * @date Jul 14, 2016 11:35:32 AM 
- */
-
 public class ServerSocketPoolTest  {
-    public static List<String> info = new ArrayList<String>();
     public static void main(String[] args) {
         testCommon();
     }
-
-    /**
-     * 1.测试普通的server 
-     * @author zzj
-     */
     public static void testCommon(){
         ServerSocket serverSocket=null;
         //定义一个容量为50的线程  
@@ -40,16 +27,9 @@ public class ServerSocketPoolTest  {
         try {
             serverSocket = new ServerSocket(5556);
             while(true){
-                System.out.println("wait receive message from client...");
-                //接收客户端连接的socket对象  
                 Socket connection =null;
-                //接收客户端传过来的数据，会阻塞  
                 connection=serverSocket.accept();
-                service.submit(new SubThread(connection,info));
-                for(String s :info){
-                    System.out.print(s+" ");
-                }
-                System.out.println();
+                service.submit(new SubThread(connection));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,39 +49,36 @@ public class ServerSocketPoolTest  {
 
 class SubThread extends Thread{
     private Socket connection;
-    public static List<String> info;
-    public SubThread(Socket conSocket,List<String> infom){
+    private Personage a;
+    private String message;
+    public SubThread(Socket conSocket){
         this.connection=conSocket;
-        info = infom;
     }
 
     public void run(){
         try {
-
-            //向客户端写入数据
             writeMsgToClient(connection.getOutputStream(),"connected!");
+            message=readMessageFromClient(connection.getInputStream());
+            //初始化a，调用主类的初始化方法，传入一个客户端发送的String参数，代表初始化参数，返回一个personage对象
+            //waiting to be implement
+            writeMsgToClient(connection.getOutputStream(),"Initialized success!");
+            while(true) {
+                //接收客户端参数，需决定客户端传来什么类型的参数
+                message=readMessageFromClient(connection.getInputStream());
+                //调用主类的方法，传入一个personage对象和message作为参数，表示主类按照客户端发送的message对a进行处理，返回一个String,表示返回给客户端的参数
+                //waiting to be implement
 
-
-            System.out.println("****received message from client******");
-
-            //读取客户端传过来的数据
-            readMessageFromClient(connection.getInputStream());
-
-            System.out.println("****received message from client end******");
-            System.out.println();
-
-            //connection.getOutputStream().close();
-            connection.close();
+                //向客户端发送参数
+                writeMsgToClient(connection.getOutputStream(),message);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
-            if (connection!=null) {
                 try {
                     connection .close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
         }
     }
 
@@ -109,14 +86,14 @@ class SubThread extends Thread{
      * 读取客户端信息
      * @param inputStream
      */
-    private static void readMessageFromClient(InputStream inputStream) throws IOException {
+    private static String readMessageFromClient(InputStream inputStream) throws IOException {
         Reader reader = new InputStreamReader(inputStream);
         BufferedReader br=new BufferedReader(reader);
-        String a = null;
-        while((a=br.readLine())!=null){
-            //System.out.println(a);
-            info.add(a);
+        String a =new String(),b=null;
+        while((b=br.readLine())!=null){
+            a+=b;
         }
+        return a;
     }
 
     /**
