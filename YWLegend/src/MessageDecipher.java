@@ -42,18 +42,16 @@ public class MessageDecipher extends SubThread{
         A.changePosition(new_pos[0],new_pos[1]);
     }
 
-<<<<<<< HEAD
+
     private static void outcomeDeliver(){
         
     }
 
-    public static void decipher(String[] code,String[] ywList,Player_1 A,Player_2 B,Socket connection){
-=======
     /*
     * 可能以后要传ywList
     * */
     public static void decipher(String[] code,Player_1 A,Player_2 B,List<yw> startRoundSkill,List<yw> endRoundSkill){
->>>>>>> ebf6b91948eaf945a1b6b404e6032ca674a3d6e7
+
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 int yw_pos=Integer.valueOf(code[3]);
