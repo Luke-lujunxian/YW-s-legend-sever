@@ -77,111 +77,113 @@ class Player_1 extends SubThread implements Runnable{
     public Legion myLegion=null;
     public void run(){
         try {
-            /*
+            synchronized (mainThread){
+                /*
             客户端身份验证
             */
-            writeMsgToClient(getConnection().getOutputStream(),"connected!1");
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            System.out.println(getMessage());
-            if(getMessage().equals("HelloIamClient")){
-                writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
-            }else{
-                writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
-            }
-            /*
-             * 初始人物
-             * */
+                writeMsgToClient(getConnection().getOutputStream(),"connected!1");
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                System.out.println(getMessage());
+                if(getMessage().equals("HelloIamClient")){
+                    writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+                }else{
+                    writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
+                }
+                /*
+                 * 初始人物
+                 * */
 
 
-            /*
-             * 传入玩家ID
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            player1=new Personage(getMessage());
+                /*
+                 * 传入玩家ID
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                player1=new Personage(getMessage());
 
-            /*
-             * 接受匹配请求
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            mainThread.notify();
+                /*
+                 * 接受匹配请求
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                mainThread.notify();
 
-            /*
-             * 等待player2准备好前序工作
-             * 等待时间为一分半
-             * */
-            this.wait(90000);
+                /*
+                 * 等待player2准备好前序工作
+                 * 等待时间为一分半
+                 * */
+                this.wait(90000);
 
 
 
-            /*解码后String数组里面的内容
-             * cardsetinfo
-             * 角色名称   暂时只有一个，所以就直接调用了
-             * yw1
-             * yw2
-             * yw3
-             * yw4
-             * yw5
-             * yw6
-             * yw7
-             * yw8
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            String[] decodeMessage=DecodeFromClient(getMessage());
-            player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
+                /*解码后String数组里面的内容
+                 * cardsetinfo
+                 * 角色名称   暂时只有一个，所以就直接调用了
+                 * yw1
+                 * yw2
+                 * yw3
+                 * yw4
+                 * yw5
+                 * yw6
+                 * yw7
+                 * yw8
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                String[] decodeMessage=DecodeFromClient(getMessage());
+                player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
 
             /*
             军团成员初始化
             并设军团置默认初始位置
              */
-            String[] ywNameList=new String[8];
-            for(int i=0;i<8;i++){
-                ywNameList[i]=decodeMessage[i+1];
+                String[] ywNameList=new String[8];
+                for(int i=0;i<8;i++){
+                    ywNameList[i]=decodeMessage[i+1];
+                }
+                yw[] ywList=new yw[8];
+                Construct8YW(ywNameList,ywList,player1);
+
+                myLegion=new Legion(player1,null,null,null,null,0,0);
+
+                /*
+                 * 等待传入player2的资料
+                 * 传回player2的id和名字给player1的客户端
+                 * */
+                mainThread.notify();
+                this.wait(90000);
+                String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
+                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
+
+                /*
+                 * 传入所选择的八个yw并保存
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                decodeMessage=DecodeFromClient(getMessage());
+                String[] allSellectedYWName=new String[8];
+                for(int k=2;k<10;k++){
+                    allSellectedYWName[k-2]=decodeMessage[k];
+                }
+
+                /*
+                 * 等待player2完成yw初始化
+                 * */
+                mainThread.notify();
+                this.wait();
+
+                /*
+                 * 将初始化后己方军团和对方军团的位置发给客户端
+                 * */
+                String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
+                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
+
+                /*
+                 * 等待客户端加载成功
+                 * 也等待对手加载
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                mainThread.notify();
+                this.wait();
+                writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
+
             }
-            yw[] ywList=new yw[8];
-            Construct8YW(ywNameList,ywList,player1);
-
-            myLegion=new Legion(player1,null,null,null,null,0,0);
-
-            /*
-            * 等待传入player2的资料
-            * 传回player2的id和名字给player1的客户端
-            * */
-            mainThread.notify();
-            this.wait(90000);
-            String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
-            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
-
-            /*
-             * 传入所选择的八个yw并保存
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            decodeMessage=DecodeFromClient(getMessage());
-            String[] allSellectedYWName=new String[8];
-            for(int k=2;k<10;k++){
-                allSellectedYWName[k-2]=decodeMessage[k];
-            }
-
-            /*
-            * 等待player2完成yw初始化
-            * */
-            mainThread.notify();
-            this.wait();
-
-            /*
-             * 将初始化后己方军团和对方军团的位置发给客户端
-             * */
-            String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
-            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
-
-            /*
-            * 等待客户端加载成功
-            * 也等待对手加载
-            * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            mainThread.notify();
-            this.wait();
-            writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
-
 
         }catch (Exception e){
             e.printStackTrace();
@@ -228,113 +230,116 @@ class Player_2 extends SubThread implements Runnable{
     public Legion myLegion=null;
     public void run(){
         try {
-            /*
+            synchronized (mainThread){
+                /*
             客户端身份验证
             */
-            writeMsgToClient(getConnection().getOutputStream(),"connected!2");
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            if(getMessage().equals("HelloIamClient")){
-                writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
-            }else{
-                writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
-            }
-            /*
-             * 初始人物
-             * */
+                writeMsgToClient(getConnection().getOutputStream(),"connected!2");
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                if(getMessage().equals("HelloIamClient")){
+                    writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+                }else{
+                    writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
+                }
+                /*
+                 * 初始人物
+                 * */
 
 
-            /*
-             * 传入玩家ID
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            player2=new Personage(getMessage());
+                /*
+                 * 传入玩家ID
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                player2=new Personage(getMessage());
 
-            /*
-             * 接受匹配请求
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            mainThread.notify();
+                /*
+                 * 接受匹配请求
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                mainThread.notify();
 
-            /*
-            * 等待player1准备好前序工作
-            * 等待时间为一分半
-            * */
-            this.wait(90000);
-            writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
+                /*
+                 * 等待player1准备好前序工作
+                 * 等待时间为一分半
+                 * */
+                this.wait(90000);
+                writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
 
-            /*解码后String数组里面的内容
-             * cardsetinfo
-             * 角色名称   暂时只有一个，所以就直接调用了
-             * yw1
-             * yw2
-             * yw3
-             * yw4
-             * yw5
-             * yw6
-             * yw7
-             * yw8
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            String[] decodeMessage=DecodeFromClient(getMessage());
-            player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
+                /*解码后String数组里面的内容
+                 * cardsetinfo
+                 * 角色名称   暂时只有一个，所以就直接调用了
+                 * yw1
+                 * yw2
+                 * yw3
+                 * yw4
+                 * yw5
+                 * yw6
+                 * yw7
+                 * yw8
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                String[] decodeMessage=DecodeFromClient(getMessage());
+                player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
 
             /*
             军团成员初始化
             并设军团置默认初始位置
              */
-            String[] ywNameList=new String[120];
-            for(int i=0;i<8;i++){
-                ywNameList[i]=decodeMessage[i+1];
+                String[] ywNameList=new String[120];
+                for(int i=0;i<8;i++){
+                    ywNameList[i]=decodeMessage[i+1];
+                }
+                yw[] ywList=new yw[8];
+                Construct8YW(ywNameList,ywList,player2);
+
+                myLegion=new Legion(player2,null,null,null,null,4,4);
+
+                /*
+                 * 等待传入player1的资料
+                 * 传回player1的id和名字给player2的客户端
+                 * */
+                mainThread.notify();
+                this.wait(90000);
+                String[] outPutStringArray1={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
+                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
+
+                /*
+                 * 传入所选择的八个yw并保存
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                decodeMessage=DecodeFromClient(getMessage());
+                String[] allSellectedYWName=new String[8];
+                for(int k=2;k<10;k++){
+                    allSellectedYWName[k-2]=decodeMessage[k];
+                }
+
+                /*
+                 * 等待player1完成yw初始化
+                 * */
+                mainThread.notify();
+                this.wait();
+
+                /*
+                 * 将初始化后己方军团和对方军团的位置发给客户端
+                 * */
+                String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
+                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
+
+                /*
+                 * 等待客户端加载成功
+                 * 也等待对手加载
+                 * */
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                mainThread.notify();
+                this.wait();
+                writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
+
+                /*
+                 * player2是后手就会先wait
+                 * */
+                this.wait();
             }
-            yw[] ywList=new yw[8];
-            Construct8YW(ywNameList,ywList,player2);
 
-            myLegion=new Legion(player2,null,null,null,null,4,4);
-
-            /*
-             * 等待传入player1的资料
-             * 传回player1的id和名字给player2的客户端
-             * */
-            mainThread.notify();
-            this.wait(90000);
-            String[] outPutStringArray1={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
-            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
-
-            /*
-            * 传入所选择的八个yw并保存
-            * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            decodeMessage=DecodeFromClient(getMessage());
-            String[] allSellectedYWName=new String[8];
-            for(int k=2;k<10;k++){
-                allSellectedYWName[k-2]=decodeMessage[k];
-            }
-
-            /*
-            * 等待player1完成yw初始化
-            * */
-            mainThread.notify();
-            this.wait();
-
-            /*
-            * 将初始化后己方军团和对方军团的位置发给客户端
-            * */
-            String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
-            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
-
-            /*
-             * 等待客户端加载成功
-             * 也等待对手加载
-             * */
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            mainThread.notify();
-            this.wait();
-            writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
-
-            /*
-            * player2是后手就会先wait
-            * */
-            this.wait();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -365,39 +370,44 @@ class Main_Thread extends SubThread implements Runnable{
     }
     public void run(){
         try {
-            /*
-            * 确认匹配成功，并传回去对手信息
-            * */
-            wait();
-            wait();
-            player1Imformation.notify();
-            player2Imformation.notify();
-            player1Imformation.setPlayer2Information(player2Imformation);
-            player2Imformation.setPlayer1Information(player1Imformation);
+            synchronized (player1Imformation){
+                synchronized (player2Imformation){
+                    /*
+                     * 确认匹配成功，并传回去对手信息
+                     * */
+                    wait();
+                    wait();
+                    player1Imformation.notify();
+                    player2Imformation.notify();
+                    player1Imformation.setPlayer2Information(player2Imformation);
+                    player2Imformation.setPlayer1Information(player1Imformation);
 
-            /*
-            * 确认生成军团成功
-            * */
-            wait();
-            wait();
-            player1Imformation.notify();
-            player2Imformation.notify();
+                    /*
+                     * 确认生成军团成功
+                     * */
+                    wait();
+                    wait();
+                    player1Imformation.notify();
+                    player2Imformation.notify();
 
-            /*
-            * 双方成功加载各自的yw
-            * */
-            wait();
-            wait();
-            player1Imformation.notify();
-            player2Imformation.notify();
+                    /*
+                     * 双方成功加载各自的yw
+                     * */
+                    wait();
+                    wait();
+                    player1Imformation.notify();
+                    player2Imformation.notify();
 
-            /*
-             * 双方成功加载自己的地图
-             * */
-            wait();
-            wait();
-            player1Imformation.notify();
-            player2Imformation.notify();
+                    /*
+                     * 双方成功加载自己的地图
+                     * */
+                    wait();
+                    wait();
+                    player1Imformation.notify();
+                    player2Imformation.notify();
+                }
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
