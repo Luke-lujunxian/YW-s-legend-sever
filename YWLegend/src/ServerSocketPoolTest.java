@@ -193,8 +193,20 @@ class Player_1 extends SubThread implements Runnable{
                 this.wait();
                 writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
+                List<yw> startRoundSkill=new ArrayList<yw>();
+                List<yw> endRoundSkill=new ArrayList<yw>();
 
                 while(true){
+                    for(yw a: startRoundSkill){
+                        a.skill();
+                        String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                        writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
+                    }
+                    writeMsgToClient(getConnection().getOutputStream(),"End");
+                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
+                    startRoundSkill=new ArrayList<yw>();
+
                     while(true){
                         setMessage(readMessageFromClient(getConnection().getInputStream()));
                         String[] decodeAfter=DecodeFromClient(getMessage());
@@ -202,9 +214,18 @@ class Player_1 extends SubThread implements Runnable{
                             writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                             break;
                         }
-                        //真大佬方法1在此
-                        //真大佬方法2在此
+                        MessageDecipher.decipher(decodeAfter,this,getPlayer2Information(),startRoundSkill,endRoundSkill);
                     }
+
+                    for(yw a: endRoundSkill){
+                        a.skill();
+                        String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                        writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
+                    }
+                    writeMsgToClient(getConnection().getOutputStream(),"End");
+                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
+                    endRoundSkill=new ArrayList<yw>();
                     mainThread.notify();
                     wait();
                     if(breakNumber!=0) break;
