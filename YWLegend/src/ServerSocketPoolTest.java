@@ -217,6 +217,12 @@ class Player_1 extends SubThread implements Runnable{
                         writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                         writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
                     }
+
+                    /**
+                     * 返回所有军团的具体情况给客户端
+                    * */
+                    writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
                     writeMsgToClient(getConnection().getOutputStream(),"End");
                     writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
                     startRoundSkill=new ArrayList<yw>();
@@ -248,6 +254,12 @@ class Player_1 extends SubThread implements Runnable{
                         writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                         writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
                     }
+
+                    /**
+                     * 返回所有军团的具体情况给客户端
+                     * */
+                    writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
                     writeMsgToClient(getConnection().getOutputStream(),"End");
                     writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
                     endRoundSkill=new ArrayList<yw>();
@@ -458,6 +470,12 @@ class Player_2 extends SubThread implements Runnable{
                             writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                             writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
                         }
+
+                        /**
+                         * 返回所有军团的具体情况给客户端
+                         * */
+                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
                         writeMsgToClient(getConnection().getOutputStream(),"End");
                         writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
                         startRoundSkill=new ArrayList<yw>();
@@ -476,7 +494,7 @@ class Player_2 extends SubThread implements Runnable{
                                 writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                                 break;
                             }
-                            //MessageDecipher.decipher(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
+                            MessageDecipher.decipher2(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
                         }
 
                         /**
@@ -489,6 +507,12 @@ class Player_2 extends SubThread implements Runnable{
                             writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                             writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
                         }
+
+                        /**
+                         * 返回所有军团的具体情况给客户端
+                         * */
+                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
                         writeMsgToClient(getConnection().getOutputStream(),"End");
                         writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
                         endRoundSkill=new ArrayList<yw>();

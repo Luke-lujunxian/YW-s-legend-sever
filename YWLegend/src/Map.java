@@ -39,7 +39,7 @@ public class Map {
         int j=changedLegion.temp_pos[1];
         mapArray[i][j].setVisible(true);
     }
-    public Legion[][] display_Map(Legion Player){//以后如果有inroundSkill时完善
+   public Legion[][] display_Map(Legion Player){//以后如果有inroundSkill时完善
         //针对玩家显示Map地图信息,判断主地图mapArray与玩家可见地图Legion_visibleMap的每一个方块
         Legion[][] temp_visible=new Legion[5][5];
         for(int i=0;i<mapArray.length;i++){
@@ -49,5 +49,9 @@ public class Map {
             }
         }
         return temp_visible;
+    }
+
+    public static String reportOfAllMapComponents(Player_1 player1, Player_2 player2){//tempory method
+        return player1.myLegion.getLeader().getIDname()+"\u00A1"+player1.myLegion.getLeader().getName()+"\u00A1"+player1.myLegion.getLeader().get("power")+"\u00A1"+player1.myLegion.getLeader().get("ATK")+"\u00A1"+player1.myLegion.getLeader().get("HP")+"\u00A1"+player1.myLegion.getCharacters()[0].name+"\u00A1"+player1.myLegion.getCharacters()[0].getEnergy()+"\u00A1"+player1.myLegion.getCharacters()[0].get("currentATK")+"\u00A1"+player1.myLegion.getCharacters()[0].get("currentHP")+"\u00A1"+player1.myLegion.getCharacters()[1].name+"\u00A1"+player1.myLegion.getCharacters()[1].getEnergy()+"\u00A1"+player1.myLegion.getCharacters()[1].get("currentATK")+"\u00A1"+player1.myLegion.getCharacters()[1].get("currentHP")+"\u00A1"+player1.myLegion.getCharacters()[2].name+"\u00A1"+player1.myLegion.getCharacters()[2].getEnergy()+"\u00A1"+player1.myLegion.getCharacters()[2].get("currentATK")+"\u00A1"+player1.myLegion.getCharacters()[2].get("currentHP")+"\u00A1"+player1.myLegion.getCharacters()[3].name+"\u00A1"+player1.myLegion.getCharacters()[3].getEnergy()+"\u00A1"+player1.myLegion.getCharacters()[3].get("currentATK")+"\u00A1"+player1.myLegion.getCharacters()[3].get("currentHP")+"\u00A1"+player2.myLegion.getLeader().getIDname()+"\u00A1"+player2.myLegion.getLeader().getName()+"\u00A1"+player2.myLegion.getLeader().get("power")+"\u00A1"+player2.myLegion.getLeader().get("ATK")+"\u00A1"+player2.myLegion.getLeader().get("HP")+"\u00A1"+player2.myLegion.getCharacters()[0].name+"\u00A1"+player2.myLegion.getCharacters()[0].getEnergy()+"\u00A1"+player2.myLegion.getCharacters()[0].get("currentATK")+"\u00A1"+player2.myLegion.getCharacters()[0].get("currentHP")+"\u00A1"+player2.myLegion.getCharacters()[1].name+"\u00A1"+player2.myLegion.getCharacters()[1].getEnergy()+"\u00A1"+player2.myLegion.getCharacters()[1].get("currentATK")+"\u00A1"+player2.myLegion.getCharacters()[1].get("currentHP")+"\u00A1"+player2.myLegion.getCharacters()[2].name+"\u00A1"+player2.myLegion.getCharacters()[2].getEnergy()+"\u00A1"+player2.myLegion.getCharacters()[2].get("currentATK")+"\u00A1"+player2.myLegion.getCharacters()[2].get("currentHP")+"\u00A1"+player2.myLegion.getCharacters()[3].name+"\u00A1"+player2.myLegion.getCharacters()[3].getEnergy()+"\u00A1"+player2.myLegion.getCharacters()[3].get("currentATK")+"\u00A1"+player2.myLegion.getCharacters()[3].get("currentHP");
     }
 }
