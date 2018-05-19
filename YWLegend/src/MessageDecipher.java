@@ -1,8 +1,25 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MessageDecipher extends SubThread{
     public MessageDecipher(){
 
     }
-    public static void decipher(String[] code, Player_1 A,Player_2 B ){
+    public static void decipher(String[] code,String[] ywList,Player_1 A,Player_2 B,Socket connection){
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 for(int i=0;i<A.myLegion.getCharacters().length;i++){
