@@ -141,7 +141,7 @@ class SubThread extends Thread implements Runnable{
                 hanLegion=new Legion(player1,null,null,null,null,4,4);
             }
 
-            
+
 
 
 
@@ -198,3 +198,5 @@ class SubThread extends Thread implements Runnable{
         writer.flush();
     }
 }
+
+
