@@ -35,7 +35,7 @@ public class Main {
     }
 
 
-    public static void ServerSocketOnlyAcceptTwo(SubThread new_playerOne, SubThread new_playerTwo){
+    public static void ServerSocketOnlyAcceptTwo(Player_1 new_playerOne, Player_2 new_playerTwo){
         ServerSocket serverSocket = null;
         ExecutorService service = Executors.newFixedThreadPool(2);
         try{
@@ -64,8 +64,8 @@ public class Main {
         System.out.println("\u00A1  i");
         System.out.println("***This is sever!***");
         System.out.println("***Sever is now active!***");
-        SubThread playerOne=null;
-        SubThread playerTwo=null;
+        Player_1 playerOne=null;
+        Player_2 playerTwo=null;
         SubThread mainThread=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
         mainThread = new Main_Thread(playerOne,playerTwo);

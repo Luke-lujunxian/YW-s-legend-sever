@@ -143,12 +143,14 @@ class Player_1 extends SubThread implements Runnable{
 
             /*
             * 等待传入player2的资料
+            * 传回player2的id和名字给player1的客户端
             * */
             mainThread.notify();
             this.wait(90000);
             String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
+            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
 
-            writeMsgToClient(getConnection().getOutputStream(),"");
+
 
 
 
@@ -259,8 +261,16 @@ class Player_2 extends SubThread implements Runnable{
             Legion myLegion=null;
             myLegion=new Legion(player2,null,null,null,null,4,4);
 
-
+            /*
+             * 等待传入player1的资料
+             * 传回player1的id和名字给player2的客户端
+             * */
+            mainThread.notify();
             this.wait(90000);
+            String[] outPutStringArray={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
+            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
+
+
 
 
 
@@ -329,8 +339,17 @@ class SubThread extends Thread implements Runnable{
     private Personage a;
     private String message;
     private int number;
+    private static String importData="";
 
     public SubThread(){}
+
+    public static String outputDataForm(String[] new_importData){
+        for(int i=0;i<new_importData.length;i++){
+            if(i<new_importData.length-1) importData+=new_importData[i]+"\u00A1";
+            else importData+=new_importData[i];
+        }
+        return importData;
+    }
 
     public void setMessage(String new_message){
         message=new_message;
