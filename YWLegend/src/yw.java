@@ -11,6 +11,7 @@ public class yw implements Character{//有待接口化
     private int attackRange;
     private int currentHP;
     public int yw_pos;
+    private String skillInitializedTime="";//StartRound, InRound, EndRound
 
     public yw(){
     }
@@ -27,6 +28,12 @@ public class yw implements Character{//有待接口化
             character = new Personage();
     }
 
+    public String getSkillInitializedTime() {
+        return skillInitializedTime;
+    }
+    public void setSkillInitializedTime(String new_skillInitializedTime){
+        skillInitializedTime=new_skillInitializedTime;
+    }
     public String getPhyle(){
         return this.phyle;
     }

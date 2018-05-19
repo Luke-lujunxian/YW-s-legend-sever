@@ -10,6 +10,7 @@ public class yw_FailTrial9 extends yw {
     private int aRm;
     private Character owner;
     private Skill skill;
+    private String skillInitializedTime="";//StartRound, InRound, EndRound
 
     public yw_FailTrial9(Character new_owner){
         name = "FailTrial9";
@@ -24,6 +25,7 @@ public class yw_FailTrial9 extends yw {
         //ability 待实现
         saying = "我的乌玛，曙光已现";
         skill = SkillFactory.createSkill(27,owner,null,null);
+        skillInitializedTime="EndRound";
     }
 
     public void Skill() {

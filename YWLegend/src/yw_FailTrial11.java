@@ -9,6 +9,8 @@ public class yw_FailTrial11 extends yw {
     private int attackRange;
     private int aRm;
     private Character owner;
+    private String skillInitializedTime="";//StartRound, InRound, EndRound
+
     public yw_FailTrial11(){
         name = "FailTrial11";
         phyle = "";
@@ -20,5 +22,6 @@ public class yw_FailTrial11 extends yw {
         aRm = 5;
         //ability 待实现
         saying = "我的乌玛，曙光已现";
+        skillInitializedTime="InRound";
     }
 }
