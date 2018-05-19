@@ -331,6 +331,11 @@ class Player_2 extends SubThread implements Runnable{
             this.wait();
             writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
+            /*
+            * player2是后手就会先wait
+            * */
+            this.wait();
+
         }catch (Exception e){
             e.printStackTrace();
         }finally{
