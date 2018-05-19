@@ -114,9 +114,15 @@ public class Legion {
         Legion_pos[1]=newPos_y;
         //return temp_pos;
     }
+
     public yw[] getCharacters(){
         return characters;
     }
+
+    public void setCharacters(yw new_yw,int pos){
+        characters[pos]=new_yw;
+    }
+
     public Personage getLeader() {
         return leader;
     }
