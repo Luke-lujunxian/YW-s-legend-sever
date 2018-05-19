@@ -85,9 +85,9 @@ class Player_1 extends SubThread implements Runnable{
     public void run(){
         try {
             synchronized (mainThread){
-                /*
-            客户端身份验证
-            */
+                /**
+                客户端身份验证
+                */
                 writeMsgToClient(getConnection().getOutputStream(),"connected!1");
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 System.out.println(getMessage());
@@ -96,24 +96,24 @@ class Player_1 extends SubThread implements Runnable{
                 }else{
                     writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
                 }
-                /*
+                /**
                  * 初始人物
                  * */
 
 
-                /*
+                /**
                  * 传入玩家ID
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 player1=new Personage(getMessage());
 
-                /*
+                /**
                  * 接受匹配请求
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 mainThread.notify();
 
-                /*
+                /**
                  * 等待player2准备好前序工作
                  * 等待时间为一分半
                  * */
@@ -121,7 +121,7 @@ class Player_1 extends SubThread implements Runnable{
 
 
 
-                /*解码后String数组里面的内容
+                /**解码后String数组里面的内容
                  * cardsetinfo
                  * 角色名称   暂时只有一个，所以就直接调用了
                  * yw1
@@ -137,7 +137,7 @@ class Player_1 extends SubThread implements Runnable{
                 String[] decodeMessage=DecodeFromClient(getMessage());
                 player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
 
-                /*
+                /**
                 *军团成员初始化
                 *并设军团置默认初始位置
                 * */
@@ -153,7 +153,7 @@ class Player_1 extends SubThread implements Runnable{
                 yw yw4=new yw();
                 myLegion=new Legion(player1,yw1,yw2,yw3,yw4,4,4);
 
-                /*
+                /**
                  * 等待传入player2的资料
                  * 传回player2的id和名字给player1的客户端
                  * */
@@ -162,7 +162,7 @@ class Player_1 extends SubThread implements Runnable{
                 String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
 
-                /*
+                /**
                  * 传入所选择的八个yw并保存
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
@@ -172,19 +172,19 @@ class Player_1 extends SubThread implements Runnable{
                     allSellectedYWName[k-2]=decodeMessage[k];
                 }
 
-                /*
+                /**
                  * 等待player2完成yw初始化
                  * */
                 mainThread.notify();
                 this.wait();
 
-                /*
+                /**
                  * 将初始化后己方军团和对方军团的位置发给客户端
                  * */
                 String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
 
-                /*
+                /**
                  * 等待客户端加载成功
                  * 也等待对手加载
                  * */
@@ -193,10 +193,24 @@ class Player_1 extends SubThread implements Runnable{
                 this.wait();
                 writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
+                /**
+                * 声明两个list来储存yw
+                * 一个是中回合开始时运行的skill
+                * 另一是中回合结束时运行的skill
+                * */
                 List<yw> startRoundSkill=new ArrayList<yw>();
                 List<yw> endRoundSkill=new ArrayList<yw>();
 
+                /**
+                * 中回合开始
+                * 循环直到有一个人物死亡为止
+                * */
                 while(true){
+
+                    /**
+                    * 中回合开始时运行的skill运行，并返回操作和结果给客户端
+                    * 重置startRoundSkill 这个List
+                    * */
                     for(yw a: startRoundSkill){
                         a.skill();
                         String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
@@ -207,9 +221,16 @@ class Player_1 extends SubThread implements Runnable{
                     writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
                     startRoundSkill=new ArrayList<yw>();
 
+                    /**
+                    * 接收每一次客户的请求，并返回对应的操作和结果给客户端
+                    * */
                     while(true){
                         setMessage(readMessageFromClient(getConnection().getInputStream()));
                         String[] decodeAfter=DecodeFromClient(getMessage());
+
+                        /**
+                         * 若客户端传入TerminateMyturn，则会跳出此循环
+                        * */
                         if(decodeAfter[0].equals("TerminateMyturn")){
                             writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                             break;
@@ -217,6 +238,10 @@ class Player_1 extends SubThread implements Runnable{
                         MessageDecipher.decipher(decodeAfter,this,getPlayer2Information(),startRoundSkill,endRoundSkill);
                     }
 
+                    /**
+                     * 中回合结束时运行的skill运行，并返回操作和结果给客户端
+                     * 重置endRoundSkill 这个List
+                     * */
                     for(yw a: endRoundSkill){
                         a.skill();
                         String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
@@ -226,11 +251,18 @@ class Player_1 extends SubThread implements Runnable{
                     writeMsgToClient(getConnection().getOutputStream(),"End");
                     writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
                     endRoundSkill=new ArrayList<yw>();
+
+                    /**
+                     * 传回主线程，并进行下一个玩家的turn
+                     * */
                     mainThread.notify();
                     wait();
                     if(breakNumber!=0) break;
                 }
 
+                /**
+                * 判断胜负
+                * */
                 if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
                 if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
 
@@ -291,7 +323,7 @@ class Player_2 extends SubThread implements Runnable{
     public void run(){
         try {
             synchronized (mainThread){
-                /*
+                /**
             客户端身份验证
             */
                 writeMsgToClient(getConnection().getOutputStream(),"connected!2");
@@ -301,31 +333,31 @@ class Player_2 extends SubThread implements Runnable{
                 }else{
                     writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
                 }
-                /*
+                /**
                  * 初始人物
                  * */
 
 
-                /*
+                /**
                  * 传入玩家ID
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 player2=new Personage(getMessage());
 
-                /*
+                /**
                  * 接受匹配请求
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 mainThread.notify();
 
-                /*
+                /**
                  * 等待player1准备好前序工作
                  * 等待时间为一分半
                  * */
                 this.wait(90000);
                 writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
 
-                /*解码后String数组里面的内容
+                /**解码后String数组里面的内容
                  * cardsetinfo
                  * 角色名称   暂时只有一个，所以就直接调用了
                  * yw1
@@ -341,7 +373,7 @@ class Player_2 extends SubThread implements Runnable{
                 String[] decodeMessage=DecodeFromClient(getMessage());
                 player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
 
-                /*
+                /**
                  *军团成员初始化
                  *并设军团置默认初始位置
                  * */
@@ -357,7 +389,7 @@ class Player_2 extends SubThread implements Runnable{
                 yw yw4=new yw();
                 myLegion=new Legion(player2,yw1,yw2,yw3,yw4,4,4);
 
-                /*
+                /**
                  * 等待传入player1的资料
                  * 传回player1的id和名字给player2的客户端
                  * */
@@ -366,7 +398,7 @@ class Player_2 extends SubThread implements Runnable{
                 String[] outPutStringArray1={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
 
-                /*
+                /**
                  * 传入所选择的八个yw并保存
                  * */
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
@@ -376,19 +408,19 @@ class Player_2 extends SubThread implements Runnable{
                     allSellectedYWName[k-2]=decodeMessage[k];
                 }
 
-                /*
+                /**
                  * 等待player1完成yw初始化
                  * */
                 mainThread.notify();
                 this.wait();
 
-                /*
+                /**
                  * 将初始化后己方军团和对方军团的位置发给客户端
                  * */
                 String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
 
-                /*
+                /**
                  * 等待客户端加载成功
                  * 也等待对手加载
                  * */
@@ -397,29 +429,86 @@ class Player_2 extends SubThread implements Runnable{
                 this.wait();
                 writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
-                /*
+                /**
                  * player2是后手就会先wait
                  * */
                 this.wait();
                 if(breakNumber==0){
+                    /**
+                     * 声明两个list来储存yw
+                     * 一个是中回合开始时运行的skill
+                     * 另一是中回合结束时运行的skill
+                     * */
+                    List<yw> startRoundSkill=new ArrayList<yw>();
+                    List<yw> endRoundSkill=new ArrayList<yw>();
+
+                    /**
+                     * 中回合开始
+                     * 循环直到有一个人物死亡为止
+                     * */
                     while(true){
+
+                        /**
+                         * 中回合开始时运行的skill运行，并返回操作和结果给客户端
+                         * 重置startRoundSkill 这个List
+                         * */
+                        for(yw a: startRoundSkill){
+                            a.skill();
+                            String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
+                        }
+                        writeMsgToClient(getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
+                        startRoundSkill=new ArrayList<yw>();
+
+                        /**
+                         * 接收每一次客户的请求，并返回对应的操作和结果给客户端
+                         * */
                         while(true){
                             setMessage(readMessageFromClient(getConnection().getInputStream()));
                             String[] decodeAfter=DecodeFromClient(getMessage());
+
+                            /**
+                             * 若客户端传入TerminateMyturn，则会跳出此循环
+                             * */
                             if(decodeAfter[0].equals("TerminateMyturn")){
                                 writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                                 break;
                             }
-                            //真大佬方法1在此
+                            //MessageDecipher.decipher(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
                         }
+
+                        /**
+                         * 中回合结束时运行的skill运行，并返回操作和结果给客户端
+                         * 重置endRoundSkill 这个List
+                         * */
+                        for(yw a: endRoundSkill){
+                            a.skill();
+                            String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
+                        }
+                        writeMsgToClient(getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
+                        endRoundSkill=new ArrayList<yw>();
+
+                        /**
+                         * 传回主线程，并进行下一个玩家的turn
+                         * */
                         mainThread.notify();
                         wait();
                         if(breakNumber!=0) break;
                     }
 
-                    if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
-                    if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
                 }
+
+                /**
+                 * 判断胜负
+                 * */
+                if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
+                if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -452,7 +541,7 @@ class Main_Thread extends SubThread implements Runnable{
         try {
             synchronized (player1Information){
                 synchronized (player2Information){
-                    /*
+                    /**
                      * 确认匹配成功，并传回去对手信息
                      * */
                     this.wait();
@@ -462,7 +551,7 @@ class Main_Thread extends SubThread implements Runnable{
                     player1Information.setPlayer2Information(player2Information);
                     player2Information.setPlayer1Information(player1Information);
 
-                    /*
+                    /**
                      * 确认生成军团成功
                      * */
                     this.wait();
@@ -470,7 +559,7 @@ class Main_Thread extends SubThread implements Runnable{
                     player1Information.notify();
                     player2Information.notify();
 
-                    /*
+                    /**
                      * 双方成功加载各自的yw
                      * */
                     this.wait();
@@ -478,7 +567,7 @@ class Main_Thread extends SubThread implements Runnable{
                     player1Information.notify();
                     player2Information.notify();
 
-                    /*
+                    /**
                      * 双方成功加载自己的地图
                      * */
                     this.wait();
@@ -486,7 +575,7 @@ class Main_Thread extends SubThread implements Runnable{
                     player1Information.notify();
                     player2Information.notify();
 
-                    /*
+                    /**
                     * 大回合循环
                     * 直到判断有一方死亡
                     * */
@@ -501,15 +590,15 @@ class Main_Thread extends SubThread implements Runnable{
 
                     }
 
-                    /*
+                    /**
                     * 结束所有中回合
                     * */
                     player1Information.breakNumber=1;
                     player2Information.breakNumber=1;
 
-                    /*
+                    /**
                     * 判断输赢
-                   * */
+                    * */
                     if(player1Information.myLegion.getLeader().getCurrentHP()<=0){
                         player1Information.setVictoryOrDeath("Lose");
                         player2Information.setVictoryOrDeath("Victory");
