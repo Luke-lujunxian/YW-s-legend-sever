@@ -31,6 +31,10 @@ public class MessageDecipher extends SubThread{
         A.changePosition(new_pos[0],new_pos[1]);
     }
 
+    private static void outcomeDeliver(){
+        
+    }
+
     public static void decipher(String[] code,String[] ywList,Player_1 A,Player_2 B,Socket connection){
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
