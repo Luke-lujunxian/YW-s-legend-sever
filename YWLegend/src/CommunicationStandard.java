@@ -5,7 +5,7 @@ public class CommunicationStandard {
     }
     public CommunicationStandard(String[] new_importData){
         outputDataForm(new_importData);
-        outputDataLength(importData);
+        importData=outputDataLength(importData).concat(importData);
     }
     private void outputDataForm(String[] new_importData){
         for(int i=0;i<new_importData.length;i++){
