@@ -96,24 +96,27 @@ public class Legion {
     public void change_status(int n,int n_new,yw placement_n,int newPos_x,int newPos_y){//改变对应信息
         //characters[n]=placement_n;
         changePosition(newPos_x,newPos_y);
-        changYwPosition(n,n_new);
+        //changeYwPosition(n,n_new);
         setLegion_visibleMap(temp_pos,Legion_pos);
     }
-    private void changYwPosition(int old_position,int new_position){//改变军团中yw的位置
-        characters[old_position].yw_pos=new_position;
-        characters[new_position].yw_pos=old_position;
-        yw temp=characters[old_position];
-        characters[old_position]=characters[new_position];
-        characters[new_position]=temp;
+    public void changeYwPosition(int new_position,yw A){//设定军团中yw的位置
+        //characters[old_position].yw_pos=new_position;
+        A=new yw();
+        characters[new_position].yw_pos=new_position;
+        //yw temp=characters[old_position];
+        //characters[old_position]=characters[new_position];
+        //characters[new_position]=temp;
     }
-    private void changePosition(int newPos_x,int newPos_y){//改变军团在Map类中的位置
+    public void changePosition(int newPos_x,int newPos_y){//改变军团在Map类中的位置
         temp_pos[0]=Legion_pos[0];
         temp_pos[1]=Legion_pos[1];
         Legion_pos[0]=newPos_x;
         Legion_pos[1]=newPos_y;
         //return temp_pos;
     }
-
+    public yw[] getCharacters(){
+        return characters;
+    }
     public Personage getLeader() {
         return leader;
     }
