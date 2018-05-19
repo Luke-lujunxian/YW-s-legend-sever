@@ -45,7 +45,103 @@ public class ServerSocketPoolTest  {
     }
 }
 
+class Player_1 extends SubThread implements Runnable{
+    public Player_1(Socket conSocket, int new_number){
+        super(conSocket,new_number);
+    }
+    public void run(){
+        try {
+            /*
+            客户端身份验证
+            */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            if(getMessage()=="HelloIamClient"){
+                writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+            }
+            /*
+             * 初始人物
+             * */
+            Personage player1=null;
+            Personage player2=null;
 
+            /*
+             * 传入玩家ID
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            player1=new Personage(getMessage());
+
+            /*
+             * 接受匹配请求
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            if(getMessage()=="askformatching"){
+                writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
+            }
+
+            /*解码后String数组里面的内容
+             * cardsetinfo
+             * 角色名称   暂时只有一个，所以就直接调用了
+             * yw1
+             * yw2
+             * yw3
+             * yw4
+             * yw5
+             * yw6
+             * yw7
+             * yw8
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            String[] decodeMessage=DecodeFromClient(getMessage());
+            player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
+
+            /*
+            军团成员初始化
+             */
+            String[] ywNameList=new String[8];
+            for(int i=0;i<8;i++){
+                ywNameList[i]=decodeMessage[i+1];
+            }
+            yw[] ywList=new yw[8];
+            Construct8YW(ywNameList,ywList,player1);
+            Legion hanLegion=null;
+            if(getNumber()==1){
+                hanLegion=new Legion(player1,null,null,null,null,0,0);
+            }
+            if(getNumber()==2){
+                hanLegion=new Legion(player1,null,null,null,null,4,4);
+            }
+
+            writeMsgToClient(getConnection().getOutputStream(),"connected!");
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            //初始化a，调用主类的初始化方法，传入一个客户端发送的String参数，代表初始化参数，返回一个personage对象
+            //waiting to be implement
+            writeMsgToClient(getConnection().getOutputStream(),"Initialized success!");
+            while(true){
+                //接收客户端参数，需决定客户端传来什么类型的参数
+                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                //调用主类的方法，传入一个personage对象和message作为参数，表示主类按照客户端发送的message对a进行处理，返回一个String,表示返回给客户端的参数
+                //waiting to be implement
+
+                //向客户端发送参数
+                writeMsgToClient(getConnection().getOutputStream(),getMessage());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                getConnection() .close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+class Player_2 extends SubThread implements Runnable{
+    public Player_2(Socket conSocket, int new_number){
+        super(conSocket,new_number);
+    }
+}
 
 class SubThread extends Thread implements Runnable{
     private Socket connection;
@@ -53,6 +149,18 @@ class SubThread extends Thread implements Runnable{
     private String message;
     private int number;
 
+    public void setMessage(String new_message){
+        message=new_message;
+    }
+    public String getMessage(){
+        return this.message;
+    }
+    public int getNumber(){
+        return this.number;
+    }
+    public Socket getConnection(){
+        return this.connection;
+    }
     public SubThread(Socket conSocket, int new_number){
         this.connection=conSocket;
         number=new_number;
@@ -147,6 +255,8 @@ class SubThread extends Thread implements Runnable{
 
 
 
+
+
             writeMsgToClient(connection.getOutputStream(),"connected!");
             message=readMessageFromClient(connection.getInputStream());
             //初始化a，调用主类的初始化方法，传入一个客户端发送的String参数，代表初始化参数，返回一个personage对象
@@ -176,7 +286,7 @@ class SubThread extends Thread implements Runnable{
      * 读取客户端信息
      * @param inputStream
      */
-    private static String readMessageFromClient(InputStream inputStream) throws IOException {
+    public static String readMessageFromClient(InputStream inputStream) throws IOException {
         Reader reader = new InputStreamReader(inputStream);
         BufferedReader br=new BufferedReader(reader);
         String a =new String(),b=null;
@@ -191,7 +301,7 @@ class SubThread extends Thread implements Runnable{
      * @param outputStream
      * @param string
      */
-    private static void writeMsgToClient(OutputStream outputStream, String string) throws IOException {
+    public static void writeMsgToClient(OutputStream outputStream, String string) throws IOException {
         Writer writer = new OutputStreamWriter(outputStream);
         writer.append(String.format("%4d",string.length()));
         writer.append(string);
