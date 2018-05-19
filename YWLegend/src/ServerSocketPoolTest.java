@@ -49,7 +49,7 @@ class Player_1 extends SubThread implements Runnable{
     private static Main_Thread mainThread = new Main_Thread();
     private Player_2 player2Information=null;
     private Personage player1=null;
-
+    public int breakNumber=0;
     public Personage getPlayer1() {
         return player1;
     }
@@ -141,8 +141,11 @@ class Player_1 extends SubThread implements Runnable{
                 }
                 yw[] ywList=new yw[8];
                 Construct8YW(ywNameList,ywList,player1);
-
-                myLegion=new Legion(player1,null,null,null,null,0,0);
+                yw yw1=new yw();
+                yw yw2=new yw();
+                yw yw3=new yw();
+                yw yw4=new yw();
+                myLegion=new Legion(player1,yw1,yw2,yw3,yw4,4,4);
 
                 /*
                  * 等待传入player2的资料
@@ -184,6 +187,7 @@ class Player_1 extends SubThread implements Runnable{
                 this.wait();
                 writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
+
                 while(true){
                     while(true){
                         setMessage(readMessageFromClient(getConnection().getInputStream()));
@@ -192,11 +196,14 @@ class Player_1 extends SubThread implements Runnable{
                             writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                             break;
                         }
-                        //真大佬方法在此
+                        //真大佬方法1在此
+                        //真大佬方法2在此
                     }
                     mainThread.notify();
                     wait();
+                    if(breakNumber!=0) break;
                 }
+
 
 
             }
@@ -217,6 +224,7 @@ class Player_2 extends SubThread implements Runnable{
     private static Main_Thread mainThread = new Main_Thread();
     private Player_1 player1Information=null;
     private Personage player2=null;
+    public int breakNumber=0;
 
     public Player_2(){}
 
@@ -309,8 +317,11 @@ class Player_2 extends SubThread implements Runnable{
                 }
                 yw[] ywList=new yw[8];
                 Construct8YW(ywNameList,ywList,player2);
-
-                myLegion=new Legion(player2,null,null,null,null,4,4);
+                yw yw1=new yw();
+                yw yw2=new yw();
+                yw yw3=new yw();
+                yw yw4=new yw();
+                myLegion=new Legion(player2,yw1,yw2,yw3,yw4,4,4);
 
                 /*
                  * 等待传入player1的资料
@@ -356,23 +367,27 @@ class Player_2 extends SubThread implements Runnable{
                  * player2是后手就会先wait
                  * */
                 this.wait();
-
-                while(true){
+                if(breakNumber==0){
                     while(true){
-                        setMessage(readMessageFromClient(getConnection().getInputStream()));
-                        String[] decodeAfter=DecodeFromClient(getMessage());
-                        if(decodeAfter[0].equals("TerminateMyturn")){
-                            writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
-                            break;
+                        while(true){
+                            setMessage(readMessageFromClient(getConnection().getInputStream()));
+                            String[] decodeAfter=DecodeFromClient(getMessage());
+                            if(decodeAfter[0].equals("TerminateMyturn")){
+                                writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
+                                break;
+                            }
+                            //真大佬方法1在此
+                            //真大佬方法2在此
                         }
-                        //真大佬方法在此
+                        mainThread.notify();
+                        wait();
+                        if(breakNumber!=0) break;
                     }
-                    mainThread.notify();
-                    wait();
                 }
+
+
+
             }
-
-
         }catch (Exception e){
             e.printStackTrace();
         }finally{
@@ -438,6 +453,10 @@ class Main_Thread extends SubThread implements Runnable{
                     player1Imformation.notify();
                     player2Imformation.notify();
 
+                    /*
+                    * 大回合循环
+                    * 直到判断有一方死亡
+                    * */
                     while(true){
                         this.wait();
                         if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0||player2Imformation.myLegion.getLeader().getCurrentHP()<=0) break;
@@ -448,8 +467,11 @@ class Main_Thread extends SubThread implements Runnable{
                         player1Imformation.notify();
 
                     }
+                    player1Imformation.breakNumber=1;
+                    player2Imformation.breakNumber=1;
                     player1Imformation.notify();
                     player2Imformation.notify();
+
 
                 }
             }
@@ -472,7 +494,7 @@ class SubThread extends Thread implements Runnable{
 
     public SubThread(){}
 
-    public static String outputDataForm(String[] new_importData){
+    public static synchronized String outputDataForm(String[] new_importData){
         for(int i=0;i<new_importData.length;i++){
             if(i<new_importData.length-1) importData+=new_importData[i]+"\u00A1";
             else importData+=new_importData[i];
@@ -483,13 +505,13 @@ class SubThread extends Thread implements Runnable{
     public void setMessage(String new_message){
         message=new_message;
     }
-    public String getMessage(){
+    public synchronized String getMessage(){
         return this.message;
     }
     public int getNumber(){
         return this.number;
     }
-    public Socket getConnection(){
+    public synchronized Socket getConnection(){
         return this.connection;
     }
     public SubThread(Socket conSocket, int new_number){
@@ -497,11 +519,11 @@ class SubThread extends Thread implements Runnable{
         number=new_number;
     }
 
-    public String[] DecodeFromClient(String m){
+    public synchronized String[] DecodeFromClient(String m){
         return m.split("\\u00A1");
     }
 
-    public void Construct8YW(String[] ywNameList, yw[] ywList,Personage player){
+    public synchronized void Construct8YW(String[] ywNameList, yw[] ywList,Personage player){
         for(int i=0;i<8;i++){
             if(ywNameList[i].equals("FailTrial1")) ywList[i]=new yw_FailTrial1(player);
             if(ywNameList[i].equals("FailTrial2")) ywList[i]=new yw_FailTrial2(player);
@@ -550,7 +572,7 @@ class SubThread extends Thread implements Runnable{
      * 读取客户端信息
      * @param inputStream
      */
-    public static String readMessageFromClient(InputStream inputStream) throws IOException {
+    public static synchronized String readMessageFromClient(InputStream inputStream) throws IOException {
         Reader reader = new InputStreamReader(inputStream);
         BufferedReader br=new BufferedReader(reader);
         return br.readLine();
@@ -561,7 +583,7 @@ class SubThread extends Thread implements Runnable{
      * @param outputStream
      * @param string
      */
-    public static void writeMsgToClient(OutputStream outputStream, String string) throws IOException {
+    public static synchronized void writeMsgToClient(OutputStream outputStream, String string) throws IOException {
         Writer writer = new OutputStreamWriter(outputStream);
         writer.append(String.format("%4d",string.length()));
         writer.append(string);
