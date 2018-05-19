@@ -518,6 +518,7 @@ class SubThread extends Thread implements Runnable{
     private String message;
     private int number;
     private static String importData="";
+    public Legion myLegion=null;
 
     public SubThread(){}
 

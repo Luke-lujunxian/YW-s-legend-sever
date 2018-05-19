@@ -39,7 +39,7 @@ public class Map {
         int j=changedLegion.temp_pos[1];
         mapArray[i][j].setVisible(true);
     }
-    public Legion[][] display_Map(Legion Player){
+    public Legion[][] display_Map(Legion Player){//以后如果有inroundSkill时完善
         //针对玩家显示Map地图信息,判断主地图mapArray与玩家可见地图Legion_visibleMap的每一个方块
         Legion[][] temp_visible=new Legion[5][5];
         for(int i=0;i<mapArray.length;i++){

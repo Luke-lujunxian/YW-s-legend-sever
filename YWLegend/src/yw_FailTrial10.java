@@ -26,7 +26,7 @@ public class yw_FailTrial10 extends yw {
         skillInitializedTime="InRound";
     }
 
-    public void Skill(yw soonDead) {
+    public void skill(yw soonDead) {
         soonDead=null;
     }
 }

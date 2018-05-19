@@ -70,6 +70,9 @@ public class yw implements Character{//有待接口化
     public void skill() {
 
     }
+    public void skill(yw soonDead) {
+
+    }
     public void set(String d,int v) {
         if(d.equals("power")) energy=v;
         else if(d.equals("HP")) blood=v;

@@ -24,28 +24,107 @@ public class MessageDecipher extends SubThread{
         if(endurer.get("currentHP")<=0) return false;
         else return true;
     }
-    private static void ywPlacement(String new_ywName,Player_1 A,int new_pos){
-        if(new_ywName.equals("FailTrial1")) A.myLegion.setCharacters(new yw_FailTrial1(A.myLegion.getLeader()),new_pos);
-        if(new_ywName.equals("FailTrial2")) A.myLegion.setCharacters(new yw_FailTrial2(A.myLegion.getLeader()),new_pos);
-        if(new_ywName.equals("FailTrial3")) A.myLegion.setCharacters(new yw_FailTrial3(),new_pos);
-        if(new_ywName.equals("FailTrial4")) A.myLegion.setCharacters(new yw_FailTrial4(),new_pos);
-        if(new_ywName.equals("FailTrial5")) A.myLegion.setCharacters(new yw_FailTrial5(),new_pos);
-        if(new_ywName.equals("FailTrial6")) A.myLegion.setCharacters(new yw_FailTrial6(),new_pos);
-        if(new_ywName.equals("FailTrial7")) A.myLegion.setCharacters(new yw_FailTrial7(),new_pos);
-        if(new_ywName.equals("FailTrial8")) A.myLegion.setCharacters(new yw_FailTrial8(A.myLegion.getLeader()),new_pos);
-        if(new_ywName.equals("FailTrial9")) A.myLegion.setCharacters(new yw_FailTrial9(A.myLegion.getLeader()),new_pos);
-        if(new_ywName.equals("FailTrial10")) A.myLegion.setCharacters(new yw_FailTrial10(),new_pos);
-        if(new_ywName.equals("FailTrial11")) A.myLegion.setCharacters(new yw_FailTrial11(),new_pos);
-        if(new_ywName.equals("FailTrial12")) A.myLegion.setCharacters(new yw_FailTrial12(),new_pos);
+    private static void ywPlacement(String new_ywName,Player_1 A,int new_pos,List<yw> startRoundSkill,List<yw> endRoundSkill,SubThread target,int target_pos,SubThread B){
+        if(new_ywName.equals("FailTrial1")){
+            yw_FailTrial1 ywla=new yw_FailTrial1(A.myLegion.getLeader());
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial2")){
+            yw_FailTrial2 ywla=new yw_FailTrial2(A.myLegion.getLeader());
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial3")){
+            yw_FailTrial3 ywla=new yw_FailTrial3();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial4")){
+            yw_FailTrial4 ywla=new yw_FailTrial4();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial5")){
+            yw_FailTrial5 ywla=new yw_FailTrial5();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial6")){
+            yw_FailTrial6 ywla=new yw_FailTrial6();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial7")){
+            yw_FailTrial7 ywla=new yw_FailTrial7();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial8")){
+            yw_FailTrial8 ywla= new yw_FailTrial8(A.myLegion.getLeader());
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial9")){
+            yw_FailTrial9 ywla= new yw_FailTrial9(A.myLegion.getLeader());
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial10")){
+            yw_FailTrial10 ywla= new yw_FailTrial10();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound")){
+                ywla.skill(target.myLegion.getCharacters()[target_pos]);
+                try {
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target_pos);
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target_pos);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+
+                }
+            }
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial11")){
+            yw_FailTrial11 ywla= new yw_FailTrial11();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
+        if(new_ywName.equals("FailTrial12")){
+            yw_FailTrial12 ywla= new yw_FailTrial12();
+            A.myLegion.setCharacters(ywla,new_pos);
+            if(ywla.getSkillInitializedTime().equals("StartRound")) startRoundSkill.add(ywla);
+            else if(ywla.getSkillInitializedTime().equals("InRound"))ywla.skill();
+            else if(ywla.getSkillInitializedTime().equals("EndRound")) endRoundSkill.add(ywla);
+        }
     }
+
     private static void moving(Legion A,int[] new_pos){
         A.changePosition(new_pos[0],new_pos[1]);
     }
 
-
-    private static void outcomeDeliver(){
-        
-    }
 
     /*
     * 可能以后要传ywList
@@ -55,10 +134,21 @@ public class MessageDecipher extends SubThread{
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 int yw_pos=Integer.valueOf(code[3]);
-                ywPlacement(code[2],A,yw_pos);
+                if(code.length==4)ywPlacement(code[2],A,yw_pos,startRoundSkill,endRoundSkill,null,0,null);
+                if(code.length==6){
+                    if(code[4].equals(A.myLegion.getLeader().getIDname())){
+                        int yw_pos2=Integer.valueOf(code[5]);
+                        ywPlacement(code[2],A,yw_pos,startRoundSkill,endRoundSkill,A,yw_pos2,B);
+                    }else{
+                        int yw_pos2=Integer.valueOf(code[5]);
+                        ywPlacement(code[2],A,yw_pos,startRoundSkill,endRoundSkill,B,yw_pos2,A);
+                    }
+                }
+
                 try{
                     synchronized (B){
                         Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"");
+                        Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"");
                     }
                 }catch (Exception e){
                     e.printStackTrace();
