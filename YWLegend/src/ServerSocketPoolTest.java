@@ -50,6 +50,12 @@ class Player_1 extends SubThread implements Runnable{
     private Player_2 player2Information=null;
     private Personage player1=null;
     public int breakNumber=0;
+    private String victoryOrDeath="";
+
+    public void setVictoryOrDeath(String victoryOrDeath) {
+        this.victoryOrDeath = victoryOrDeath;
+    }
+
     public Personage getPlayer1() {
         return player1;
     }
@@ -131,10 +137,10 @@ class Player_1 extends SubThread implements Runnable{
                 String[] decodeMessage=DecodeFromClient(getMessage());
                 player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
 
-            /*
-            军团成员初始化
-            并设军团置默认初始位置
-             */
+                /*
+                *军团成员初始化
+                *并设军团置默认初始位置
+                * */
                 String[] ywNameList=new String[8];
                 for(int i=0;i<8;i++){
                     ywNameList[i]=decodeMessage[i+1];
@@ -204,6 +210,8 @@ class Player_1 extends SubThread implements Runnable{
                     if(breakNumber!=0) break;
                 }
 
+                if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
+                if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
 
 
             }
@@ -212,7 +220,7 @@ class Player_1 extends SubThread implements Runnable{
             e.printStackTrace();
         }finally{
             try{
-                getConnection() .close();
+                getConnection().close();
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -225,6 +233,11 @@ class Player_2 extends SubThread implements Runnable{
     private Player_1 player1Information=null;
     private Personage player2=null;
     public int breakNumber=0;
+    private String victoryOrDeath="";
+
+    public void setVictoryOrDeath(String victoryOrDeath) {
+        this.victoryOrDeath = victoryOrDeath;
+    }
 
     public Player_2(){}
 
@@ -307,10 +320,10 @@ class Player_2 extends SubThread implements Runnable{
                 String[] decodeMessage=DecodeFromClient(getMessage());
                 player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
 
-            /*
-            军团成员初始化
-            并设军团置默认初始位置
-             */
+                /*
+                 *军团成员初始化
+                 *并设军团置默认初始位置
+                 * */
                 String[] ywNameList=new String[120];
                 for(int i=0;i<8;i++){
                     ywNameList[i]=decodeMessage[i+1];
@@ -377,16 +390,15 @@ class Player_2 extends SubThread implements Runnable{
                                 break;
                             }
                             //真大佬方法1在此
-                            //真大佬方法2在此
                         }
                         mainThread.notify();
                         wait();
                         if(breakNumber!=0) break;
                     }
+
+                    if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
+                    if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
                 }
-
-
-
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -467,8 +479,23 @@ class Main_Thread extends SubThread implements Runnable{
                         player1Imformation.notify();
 
                     }
+
+                    /*
+                    * 结束所有中回合
+                    * */
                     player1Imformation.breakNumber=1;
                     player2Imformation.breakNumber=1;
+
+                    /*
+                    * 判断输赢
+                   * */
+                    if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0){
+                        player1Imformation.setVictoryOrDeath("Lose");
+                        player2Imformation.setVictoryOrDeath("Victory");
+                    }else{
+                        player1Imformation.setVictoryOrDeath("Victory");
+                        player2Imformation.setVictoryOrDeath("Lose");
+                    }
                     player1Imformation.notify();
                     player2Imformation.notify();
 
