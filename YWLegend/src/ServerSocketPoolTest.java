@@ -414,9 +414,9 @@ class Player_2 extends SubThread implements Runnable{
 }
 
 class Main_Thread extends SubThread implements Runnable{
-    private Player_1 player1Imformation = new Player_1();
+    private Player_1 player1Information = new Player_1();
 
-    private Player_2 player2Imformation = new Player_2();
+    private Player_2 player2Information = new Player_2();
 
 
      Main_Thread(){
@@ -424,46 +424,46 @@ class Main_Thread extends SubThread implements Runnable{
     }
 
     Main_Thread(Player_1 player1,Player_2 player2){
-        player1Imformation=player1;
-        player2Imformation=player2;
+        player1Information=player1;
+        player2Information=player2;
     }
     public void run(){
         try {
-            synchronized (player1Imformation){
-                synchronized (player2Imformation){
+            synchronized (player1Information){
+                synchronized (player2Information){
                     /*
                      * 确认匹配成功，并传回去对手信息
                      * */
                     this.wait();
                     this.wait();
-                    player1Imformation.notify();
-                    player2Imformation.notify();
-                    player1Imformation.setPlayer2Information(player2Imformation);
-                    player2Imformation.setPlayer1Information(player1Imformation);
+                    player1Information.notify();
+                    player2Information.notify();
+                    player1Information.setPlayer2Information(player2Information);
+                    player2Information.setPlayer1Information(player1Information);
 
                     /*
                      * 确认生成军团成功
                      * */
                     this.wait();
                     this.wait();
-                    player1Imformation.notify();
-                    player2Imformation.notify();
+                    player1Information.notify();
+                    player2Information.notify();
 
                     /*
                      * 双方成功加载各自的yw
                      * */
                     this.wait();
                     this.wait();
-                    player1Imformation.notify();
-                    player2Imformation.notify();
+                    player1Information.notify();
+                    player2Information.notify();
 
                     /*
                      * 双方成功加载自己的地图
                      * */
                     this.wait();
                     this.wait();
-                    player1Imformation.notify();
-                    player2Imformation.notify();
+                    player1Information.notify();
+                    player2Information.notify();
 
                     /*
                     * 大回合循环
@@ -471,33 +471,33 @@ class Main_Thread extends SubThread implements Runnable{
                     * */
                     while(true){
                         this.wait();
-                        if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0||player2Imformation.myLegion.getLeader().getCurrentHP()<=0) break;
-                        player2Imformation.notify();
+                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                        player2Information.notify();
 
                         this.wait();
-                        if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0||player2Imformation.myLegion.getLeader().getCurrentHP()<=0) break;
-                        player1Imformation.notify();
+                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                        player1Information.notify();
 
                     }
 
                     /*
                     * 结束所有中回合
                     * */
-                    player1Imformation.breakNumber=1;
-                    player2Imformation.breakNumber=1;
+                    player1Information.breakNumber=1;
+                    player2Information.breakNumber=1;
 
                     /*
                     * 判断输赢
                    * */
-                    if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0){
-                        player1Imformation.setVictoryOrDeath("Lose");
-                        player2Imformation.setVictoryOrDeath("Victory");
+                    if(player1Information.myLegion.getLeader().getCurrentHP()<=0){
+                        player1Information.setVictoryOrDeath("Lose");
+                        player2Information.setVictoryOrDeath("Victory");
                     }else{
-                        player1Imformation.setVictoryOrDeath("Victory");
-                        player2Imformation.setVictoryOrDeath("Lose");
+                        player1Information.setVictoryOrDeath("Victory");
+                        player2Information.setVictoryOrDeath("Lose");
                     }
-                    player1Imformation.notify();
-                    player2Imformation.notify();
+                    player1Information.notify();
+                    player2Information.notify();
 
 
                 }
