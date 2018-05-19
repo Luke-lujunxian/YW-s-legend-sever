@@ -113,4 +113,8 @@ public class Legion {
         Legion_pos[1]=newPos_y;
         //return temp_pos;
     }
+
+    public Personage getLeader() {
+        return leader;
+    }
 }

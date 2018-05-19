@@ -46,7 +46,7 @@ public class ServerSocketPoolTest  {
 }
 
 class Player_1 extends SubThread implements Runnable{
-    private static SubThread mainThread;
+    private static Main_Thread mainThread = new Main_Thread();
     private Player_2 player2Information=null;
     private Personage player1=null;
 
@@ -63,13 +63,14 @@ class Player_1 extends SubThread implements Runnable{
         this.player2Information = player2Information;
     }
 
-    public static void setMainThread(SubThread new_mainThread) {
+    public static void setMainThread(Main_Thread new_mainThread) {
         mainThread = new_mainThread;
     }
 
     public static SubThread getMainThread() {
         return mainThread;
     }
+    public Player_1(){}
 
     public Player_1(Socket conSocket, int new_number){
         super(conSocket,new_number);
@@ -183,6 +184,21 @@ class Player_1 extends SubThread implements Runnable{
                 this.wait();
                 writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
+                while(true){
+                    while(true){
+                        setMessage(readMessageFromClient(getConnection().getInputStream()));
+                        String[] decodeAfter=DecodeFromClient(getMessage());
+                        if(decodeAfter[0].equals("TerminateMyturn")){
+                            writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
+                            break;
+                        }
+                        //真大佬方法在此
+                    }
+                    mainThread.notify();
+                    wait();
+                }
+
+
             }
 
         }catch (Exception e){
@@ -198,9 +214,11 @@ class Player_1 extends SubThread implements Runnable{
 }
 
 class Player_2 extends SubThread implements Runnable{
-    private static SubThread mainThread;
+    private static Main_Thread mainThread = new Main_Thread();
     private Player_1 player1Information=null;
     private Personage player2=null;
+
+    public Player_2(){}
 
     public Personage getPlayer2() {
         return player2;
@@ -216,7 +234,7 @@ class Player_2 extends SubThread implements Runnable{
 
 
 
-    public static void setMainThread(SubThread new_mainThread) {
+    public static void setMainThread(Main_Thread new_mainThread) {
         mainThread = new_mainThread;
     }
 
@@ -338,6 +356,20 @@ class Player_2 extends SubThread implements Runnable{
                  * player2是后手就会先wait
                  * */
                 this.wait();
+
+                while(true){
+                    while(true){
+                        setMessage(readMessageFromClient(getConnection().getInputStream()));
+                        String[] decodeAfter=DecodeFromClient(getMessage());
+                        if(decodeAfter[0].equals("TerminateMyturn")){
+                            writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
+                            break;
+                        }
+                        //真大佬方法在此
+                    }
+                    mainThread.notify();
+                    wait();
+                }
             }
 
 
@@ -355,9 +387,9 @@ class Player_2 extends SubThread implements Runnable{
 }
 
 class Main_Thread extends SubThread implements Runnable{
-    private Player_1 player1Imformation =null;
+    private Player_1 player1Imformation = new Player_1();
 
-    private Player_2 player2Imformation =null;
+    private Player_2 player2Imformation = new Player_2();
 
 
      Main_Thread(){
@@ -375,8 +407,8 @@ class Main_Thread extends SubThread implements Runnable{
                     /*
                      * 确认匹配成功，并传回去对手信息
                      * */
-                    wait();
-                    wait();
+                    this.wait();
+                    this.wait();
                     player1Imformation.notify();
                     player2Imformation.notify();
                     player1Imformation.setPlayer2Information(player2Imformation);
@@ -385,26 +417,40 @@ class Main_Thread extends SubThread implements Runnable{
                     /*
                      * 确认生成军团成功
                      * */
-                    wait();
-                    wait();
+                    this.wait();
+                    this.wait();
                     player1Imformation.notify();
                     player2Imformation.notify();
 
                     /*
                      * 双方成功加载各自的yw
                      * */
-                    wait();
-                    wait();
+                    this.wait();
+                    this.wait();
                     player1Imformation.notify();
                     player2Imformation.notify();
 
                     /*
                      * 双方成功加载自己的地图
                      * */
-                    wait();
-                    wait();
+                    this.wait();
+                    this.wait();
                     player1Imformation.notify();
                     player2Imformation.notify();
+
+                    while(true){
+                        this.wait();
+                        if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0||player2Imformation.myLegion.getLeader().getCurrentHP()<=0) break;
+                        player2Imformation.notify();
+
+                        this.wait();
+                        if(player1Imformation.myLegion.getLeader().getCurrentHP()<=0||player2Imformation.myLegion.getLeader().getCurrentHP()<=0) break;
+                        player1Imformation.notify();
+
+                    }
+                    player1Imformation.notify();
+                    player2Imformation.notify();
+
                 }
             }
 
@@ -412,11 +458,7 @@ class Main_Thread extends SubThread implements Runnable{
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
-            try {
-                getConnection().close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return;
         }
     }
 }

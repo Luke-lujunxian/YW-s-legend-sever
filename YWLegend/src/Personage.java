@@ -27,7 +27,11 @@ public class Personage extends Creature implements Character {
         this.secondSkill = secondSkill;
     }
 
-    public void set(String d,int v) {
+    public int getCurrentHP() {
+        return currentHP;
+    }
+
+    public void set(String d, int v) {
         if(d.equals("power")) power=v;
         else if(d.equals("HP")) HP=v;
         else if(d.equals("currentHP")) currentHP=v;

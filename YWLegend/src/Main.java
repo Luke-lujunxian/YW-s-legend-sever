@@ -66,7 +66,7 @@ public class Main {
         System.out.println("***Sever is now active!***");
         Player_1 playerOne=null;
         Player_2 playerTwo=null;
-        SubThread mainThread=null;
+        Main_Thread mainThread=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
         mainThread = new Main_Thread(playerOne,playerTwo);
         Player_1.setMainThread(mainThread);
