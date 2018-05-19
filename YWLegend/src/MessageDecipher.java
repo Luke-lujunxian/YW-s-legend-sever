@@ -19,41 +19,85 @@ public class MessageDecipher extends SubThread{
     public MessageDecipher(){
 
     }
+    private static boolean Attack(Character attacter,Character endurer){
+        endurer.set("currentHP",endurer.get("currentHP")-attacter.get("currentATK"));
+        if(endurer.get("currentHP")<=0) return false;
+        else return true;
+    }
+    private static void ywPlacement(){
+
+    }
+    private static void moving(Legion A,int[] new_pos){
+        A.changePosition(new_pos[0],new_pos[1]);
+    }
+
     public static void decipher(String[] code,String[] ywList,Player_1 A,Player_2 B,Socket connection){
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 for(int i=0;i<A.myLegion.getCharacters().length;i++){
                     if(code[2].equals(A.myLegion.getCharacters()[i])){
                         int yw_pos=Integer.valueOf(code[3]);
-                        A.myLegion.changeYwPosition(yw_pos);
+                        //暂时不实现
                     }
                 }
             }
-            else{
-                for(int i=0;i<B.myLegion.getCharacters().length;i++){
-                    if(code[2].equals(B.myLegion.getCharacters()[i])){
-                        int yw_pos=Integer.valueOf(code[3]);
-                        B.myLegion.changeYwPosition(yw_pos);
-                    }
-                }
-            }
-        }else if(code[0].equals("Attack")){
+        }
+        else if(code[0].equals("Attack")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
-                if(code[2].equals("999")) ;
+                if(code[2].equals("999")){
+                    if(code[3].equals(A.myLegion.getLeader().getIDname())){
+                        Character a=A.myLegion.getLeader();
+                        Character b=A.myLegion.getLeader();
+                        Attack(a,b);
+                    }else{
+                        Character a=A.myLegion.getLeader();
+                        Character b=B.myLegion.getLeader();
+                        Attack(a,b);
+                    }
+                }
                 else {
                     int yw_pos=Integer.valueOf(code[2]);
-                    A.myLegion.getCharacters()[yw_pos].
+                    if(code[3].equals(A.myLegion.getLeader().getIDname())){
+                        Character a=A.myLegion.getCharacters()[yw_pos];
+                        Character b=A.myLegion.getCharacters()[yw_pos];
+                        if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos]=new yw();
+                    }else{
+                        Character a=A.myLegion.getCharacters()[yw_pos];
+                        Character b=B.myLegion.getCharacters()[yw_pos];
+                        if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                    }
                 }
             }
             else{
-                if(code[2].equals("999")) B.myLegion.getLeader();
+                if(code[2].equals("999")){
+                    if(code[3].equals(A.myLegion.getLeader().getIDname())){
+                        Character a=B.myLegion.getLeader();
+                        Character b=A.myLegion.getLeader();
+                        Attack(a,b);
+                    }else{
+                        Character a=B.myLegion.getLeader();
+                        Character b=B.myLegion.getLeader();
+                        Attack(a,b);
+                    }
+                }
                 else{
                     int yw_pos=Integer.valueOf(code[2]);
-                    B.myLegion.getCharacters()[yw_pos]
+                    if(code[3].equals(A.myLegion.getLeader().getIDname())){
+                        Character a=B.myLegion.getCharacters()[yw_pos];
+                        Character b=A.myLegion.getCharacters()[yw_pos];
+                        if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos]=new yw();
+                    }else{
+                        Character a=B.myLegion.getCharacters()[yw_pos];
+                        Character b=B.myLegion.getCharacters()[yw_pos];
+                        if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                    }
                 }
             }
-        }else if(code[0].equals("Moving")){
-
+        }
+        else if(code[0].equals("Moving")){
+            int pos_x=Integer.valueOf(code[1].substring(0,1));
+            int pos_y=Integer.valueOf(code[1].substring(1,2));
+            A.myLegion.changePosition(pos_x,pos_y);
         }
 
     }
