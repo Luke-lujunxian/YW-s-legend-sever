@@ -95,8 +95,8 @@ public class MessageDecipher extends SubThread{
             else if(ywla.getSkillInitializedTime().equals("InRound")){
                 ywla.skill(target.myLegion.getCharacters()[target_pos]);
                 try {
-                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target_pos);
-                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target_pos);
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target.myLegion.getLeader().getIDname()+"\u00A1"+target_pos);
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+target.myLegion.getLeader().getIDname()+"\u00A1"+target_pos);
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
@@ -132,6 +132,8 @@ public class MessageDecipher extends SubThread{
     public static void decipher(String[] code,Player_1 A,Player_2 B,List<yw> startRoundSkill,List<yw> endRoundSkill){
 
         if(code[0].equals("ywPlacement")){
+            String[] returnArray=new String[code.length];
+            returnArray[0]="displayYwPlacement";
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 int yw_pos=Integer.valueOf(code[3]);
                 if(code.length==4)ywPlacement(code[2],A,yw_pos,startRoundSkill,endRoundSkill,null,0,null);
@@ -144,11 +146,14 @@ public class MessageDecipher extends SubThread{
                         ywPlacement(code[2],A,yw_pos,startRoundSkill,endRoundSkill,B,yw_pos2,A);
                     }
                 }
-
+                returnArray[1]=A.myLegion.getLeader().getIDname();
+                returnArray[2]=yw_pos+"";
                 try{
                     synchronized (B){
-                        Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"");
-                        Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"");
+                        Player_1.writeMsgToClient(A.getConnection().getOutputStream(),outputDataForm(returnArray));
+                        Player_2.writeMsgToClient(B.getConnection().getOutputStream(),outputDataForm(returnArray));
+                        Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"End");
+                        Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"End");
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -158,30 +163,97 @@ public class MessageDecipher extends SubThread{
             }
         }
         else if(code[0].equals("Attack")){
+            String[] returnArray=new String[code.length];
+            returnArray[0]="displayAttack";
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
                 if(code[2].equals("999")){
                     if(code[3].equals(A.myLegion.getLeader().getIDname())){
-                        Character a=A.myLegion.getLeader();
-                        Character b=A.myLegion.getLeader();
-                        Attack(a,b);
+                        if(code[4].equals("999")){
+                            Character a=A.myLegion.getLeader();
+                            Character b=A.myLegion.getLeader();
+                            Attack(a,b);
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                        }else{
+                            int yw_pos_1=Integer.valueOf(code[4]);
+                            Character a=A.myLegion.getLeader();
+                            Character b=A.myLegion.getCharacters()[yw_pos_1];
+                            if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos_1]=new yw();
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                            if(!Attack(a,b)) returnArray[6]=0+"";
+
+                        }
+
                     }else{
-                        Character a=A.myLegion.getLeader();
-                        Character b=B.myLegion.getLeader();
-                        Attack(a,b);
+                        if(code[4].equals("999")){
+                            Character a=A.myLegion.getLeader();
+                            Character b=B.myLegion.getLeader();
+                            Attack(a,b);
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                        }else{
+                            int yw_pos_1=Integer.valueOf(code[4]);
+                            Character a=A.myLegion.getLeader();
+                            Character b=B.myLegion.getCharacters()[yw_pos_1];
+                            if(!Attack(a,b))B.myLegion.getCharacters()[yw_pos_1]=new yw();
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                            if(!Attack(a,b)) returnArray[6]=0+"";
+                        }
+
                     }
                 }
                 else {
                     int yw_pos=Integer.valueOf(code[2]);
                     if(code[3].equals(A.myLegion.getLeader().getIDname())){
-                        Character a=A.myLegion.getCharacters()[yw_pos];//lalala
-                        Character b=A.myLegion.getCharacters()[yw_pos];
-                        if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos]=new yw();
+                        if(code[4].equals("999")){
+                            Character a=A.myLegion.getCharacters()[yw_pos];
+                            Character b=A.myLegion.getLeader();
+                            Attack(a,b);
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                        }else{
+                            int yw_pos_1=Integer.valueOf(code[4]);
+                            Character a=A.myLegion.getCharacters()[yw_pos];//lalala
+                            Character b=A.myLegion.getCharacters()[yw_pos_1];
+                            if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                            if(!Attack(a,b)) returnArray[6]=0+"";
+                        }
                     }else{
+                        if(code[4].equals("999")){
+                            Character a=A.myLegion.getCharacters()[yw_pos];
+                            Character b=B.myLegion.getLeader();
+                            Attack(a,b);
+                            returnArray[5]=b.get("currentHP")+"";
+                            returnArray[6]=1+"";
+                        }
+                        int yw_pos_1=Integer.valueOf(code[4]);
                         Character a=A.myLegion.getCharacters()[yw_pos];
-                        Character b=B.myLegion.getCharacters()[yw_pos];
+                        Character b=B.myLegion.getCharacters()[yw_pos_1];
                         if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                        returnArray[5]=b.get("currentHP")+"";
+                        returnArray[6]=1+"";
+                        if(!Attack(a,b)) returnArray[6]=0+"";
                     }
                 }
+            }
+            returnArray[1]=A.myLegion.getLeader().getIDname();
+            returnArray[2]=code[2];
+            returnArray[3]=B.myLegion.getLeader().getIDname();
+            returnArray[4]=code[4];
+            try{
+                synchronized (B){
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),outputDataForm(returnArray));
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),outputDataForm(returnArray));
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"End");
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"End");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
             }
             /*else{
                 if(code[2].equals("999")){
@@ -210,9 +282,24 @@ public class MessageDecipher extends SubThread{
             }*/
         }
         else if(code[0].equals("Moving")){
+            String[] returnArray=new String[code.length];
+            returnArray[0]="displayMoving";
+            returnArray[1]=A.myLegion.getLeader().getIDname();
             int pos_x=Integer.valueOf(code[1].substring(0,1));
             int pos_y=Integer.valueOf(code[1].substring(1,2));
             A.myLegion.changePosition(pos_x,pos_y);
+            returnArray[2]=code[1];
+            try{
+                synchronized (B){
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),outputDataForm(returnArray));
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),outputDataForm(returnArray));
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"End");
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"End");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+            }
         }
 
     }
