@@ -5,9 +5,9 @@ public class yw implements Character{//有待接口化
     private String phyle;
     private String religion;
     private String saying;
-    private int energy;
+    private int energy,currentEnergy;
     private int blood;
-    private int attack;
+    private int attack,currentATK;
     private int attackRange;
     private int currentHP;
     public int yw_pos;
@@ -68,12 +68,16 @@ public class yw implements Character{//有待接口化
         else if(d.equals("HP")) blood=v;
         else if(d.equals("currentHP")) currentHP=v;
         else if(d.equals("ATK")) attack=v;
+        else if(d.equals("currentATK")) attack=v;
+        else if(d.equals("currentEnergy")) currentEnergy=v;
     }
     public int get(String d) {
         if(d.equals("power")) return energy;
         else if(d.equals("HP")) return blood;
         else if(d.equals("currentHP")) return currentHP;
         else if(d.equals("ATK")) return attack;
+        else if(d.equals("currentATK")) return currentATK;
+        else if(d.equals("currentEnergy")) return currentEnergy;
         return -1;
     }
 }

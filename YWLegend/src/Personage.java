@@ -5,7 +5,7 @@ public class Personage extends Creature implements Character {
     private int power;
     private int HP;
     private int currentHP;
-    private int ATK;
+    private int ATK,currentATK;
     private Skill firstSkill, secondSkill;
     private String name;
     private String IDname;
@@ -32,12 +32,14 @@ public class Personage extends Creature implements Character {
         else if(d.equals("HP")) HP=v;
         else if(d.equals("currentHP")) currentHP=v;
         else if(d.equals("ATK")) ATK=v;
+        else if(d.equals("currentATK")) currentATK=v;
     }
     public int get(String d) {
         if(d.equals("power")) return power;
         else if(d.equals("HP")) return HP;
         else if(d.equals("currentHP")) return currentHP;
         else if(d.equals("ATK")) return ATK;
+        else if(d.equals("currentATK")) return currentATK;
         return -1;
     }
 
