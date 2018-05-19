@@ -24,22 +24,41 @@ public class MessageDecipher extends SubThread{
         if(endurer.get("currentHP")<=0) return false;
         else return true;
     }
-    private static void ywPlacement(){
-
+    private static void ywPlacement(String new_ywName,Player_1 A,int new_pos){
+        if(new_ywName.equals("FailTrial1")) A.myLegion.setCharacters(new yw_FailTrial1(A.myLegion.getLeader()),new_pos);
+        if(new_ywName.equals("FailTrial2")) A.myLegion.setCharacters(new yw_FailTrial2(A.myLegion.getLeader()),new_pos);
+        if(new_ywName.equals("FailTrial3")) A.myLegion.setCharacters(new yw_FailTrial3(),new_pos);
+        if(new_ywName.equals("FailTrial4")) A.myLegion.setCharacters(new yw_FailTrial4(),new_pos);
+        if(new_ywName.equals("FailTrial5")) A.myLegion.setCharacters(new yw_FailTrial5(),new_pos);
+        if(new_ywName.equals("FailTrial6")) A.myLegion.setCharacters(new yw_FailTrial6(),new_pos);
+        if(new_ywName.equals("FailTrial7")) A.myLegion.setCharacters(new yw_FailTrial7(),new_pos);
+        if(new_ywName.equals("FailTrial8")) A.myLegion.setCharacters(new yw_FailTrial8(A.myLegion.getLeader()),new_pos);
+        if(new_ywName.equals("FailTrial9")) A.myLegion.setCharacters(new yw_FailTrial9(A.myLegion.getLeader()),new_pos);
+        if(new_ywName.equals("FailTrial10")) A.myLegion.setCharacters(new yw_FailTrial10(),new_pos);
+        if(new_ywName.equals("FailTrial11")) A.myLegion.setCharacters(new yw_FailTrial11(),new_pos);
+        if(new_ywName.equals("FailTrial12")) A.myLegion.setCharacters(new yw_FailTrial12(),new_pos);
     }
     private static void moving(Legion A,int[] new_pos){
         A.changePosition(new_pos[0],new_pos[1]);
     }
 
-    public static void decipher(String[] code,String[] ywList,Player_1 A,Player_2 B,Socket connection){
+    /*
+    * 可能以后要传ywList
+    * */
+    public static void decipher(String[] code,Player_1 A,Player_2 B,List<yw> startRoundSkill,List<yw> endRoundSkill){
         if(code[0].equals("ywPlacement")){
             if(code[1].equals(A.myLegion.getLeader().getIDname())){
-                for(int i=0;i<A.myLegion.getCharacters().length;i++){
-                    if(code[2].equals(A.myLegion.getCharacters()[i])){
-                        int yw_pos=Integer.valueOf(code[3]);
-                        //暂时不实现
+                int yw_pos=Integer.valueOf(code[3]);
+                ywPlacement(code[2],A,yw_pos);
+                try{
+                    synchronized (B){
+                        Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"");
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
                 }
+
             }
         }
         else if(code[0].equals("Attack")){
@@ -58,7 +77,7 @@ public class MessageDecipher extends SubThread{
                 else {
                     int yw_pos=Integer.valueOf(code[2]);
                     if(code[3].equals(A.myLegion.getLeader().getIDname())){
-                        Character a=A.myLegion.getCharacters()[yw_pos];
+                        Character a=A.myLegion.getCharacters()[yw_pos];//lalala
                         Character b=A.myLegion.getCharacters()[yw_pos];
                         if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos]=new yw();
                     }else{
@@ -68,7 +87,7 @@ public class MessageDecipher extends SubThread{
                     }
                 }
             }
-            else{
+            /*else{
                 if(code[2].equals("999")){
                     if(code[3].equals(A.myLegion.getLeader().getIDname())){
                         Character a=B.myLegion.getLeader();
@@ -92,7 +111,7 @@ public class MessageDecipher extends SubThread{
                         if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
                     }
                 }
-            }
+            }*/
         }
         else if(code[0].equals("Moving")){
             int pos_x=Integer.valueOf(code[1].substring(0,1));
