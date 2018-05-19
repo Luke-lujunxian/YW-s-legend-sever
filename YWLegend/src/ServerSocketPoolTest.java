@@ -74,7 +74,7 @@ class Player_1 extends SubThread implements Runnable{
     public Player_1(Socket conSocket, int new_number){
         super(conSocket,new_number);
     }
-
+    public Legion myLegion=null;
     public void run(){
         try {
             /*
@@ -131,6 +131,7 @@ class Player_1 extends SubThread implements Runnable{
 
             /*
             军团成员初始化
+            并设军团置默认初始位置
              */
             String[] ywNameList=new String[8];
             for(int i=0;i<8;i++){
@@ -138,7 +139,7 @@ class Player_1 extends SubThread implements Runnable{
             }
             yw[] ywList=new yw[8];
             Construct8YW(ywNameList,ywList,player1);
-            Legion myLegion=null;
+
             myLegion=new Legion(player1,null,null,null,null,0,0);
 
             /*
@@ -150,8 +151,36 @@ class Player_1 extends SubThread implements Runnable{
             String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
             writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
 
+            /*
+             * 传入所选择的八个yw并保存
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            decodeMessage=DecodeFromClient(getMessage());
+            String[] allSellectedYWName=new String[8];
+            for(int k=2;k<10;k++){
+                allSellectedYWName[k-2]=decodeMessage[k];
+            }
 
+            /*
+            * 等待player2完成yw初始化
+            * */
+            mainThread.notify();
+            this.wait();
 
+            /*
+             * 将初始化后己方军团和对方军团的位置发给客户端
+             * */
+            String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
+            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
+
+            /*
+            * 等待客户端加载成功
+            * 也等待对手加载
+            * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            mainThread.notify();
+            this.wait();
+            writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
 
         }catch (Exception e){
@@ -196,7 +225,7 @@ class Player_2 extends SubThread implements Runnable{
         super(conSocket,new_number);
     }
 
-
+    public Legion myLegion=null;
     public void run(){
         try {
             /*
@@ -251,14 +280,15 @@ class Player_2 extends SubThread implements Runnable{
 
             /*
             军团成员初始化
+            并设军团置默认初始位置
              */
-            String[] ywNameList=new String[8];
+            String[] ywNameList=new String[120];
             for(int i=0;i<8;i++){
                 ywNameList[i]=decodeMessage[i+1];
             }
             yw[] ywList=new yw[8];
             Construct8YW(ywNameList,ywList,player2);
-            Legion myLegion=null;
+
             myLegion=new Legion(player2,null,null,null,null,4,4);
 
             /*
@@ -267,12 +297,39 @@ class Player_2 extends SubThread implements Runnable{
              * */
             mainThread.notify();
             this.wait(90000);
-            String[] outPutStringArray={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
-            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
+            String[] outPutStringArray1={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
+            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
 
+            /*
+            * 传入所选择的八个yw并保存
+            * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            decodeMessage=DecodeFromClient(getMessage());
+            String[] allSellectedYWName=new String[8];
+            for(int k=2;k<10;k++){
+                allSellectedYWName[k-2]=decodeMessage[k];
+            }
 
+            /*
+            * 等待player1完成yw初始化
+            * */
+            mainThread.notify();
+            this.wait();
 
+            /*
+            * 将初始化后己方军团和对方军团的位置发给客户端
+            * */
+            String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
+            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
 
+            /*
+             * 等待客户端加载成功
+             * 也等待对手加载
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            mainThread.notify();
+            this.wait();
+            writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -321,6 +378,21 @@ class Main_Thread extends SubThread implements Runnable{
             player1Imformation.notify();
             player2Imformation.notify();
 
+            /*
+            * 双方成功加载各自的yw
+            * */
+            wait();
+            wait();
+            player1Imformation.notify();
+            player2Imformation.notify();
+
+            /*
+             * 双方成功加载自己的地图
+             * */
+            wait();
+            wait();
+            player1Imformation.notify();
+            player2Imformation.notify();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -424,11 +496,7 @@ class SubThread extends Thread implements Runnable{
     public static String readMessageFromClient(InputStream inputStream) throws IOException {
         Reader reader = new InputStreamReader(inputStream);
         BufferedReader br=new BufferedReader(reader);
-        String a =new String(),b=null;
-        while((b=br.readLine())!=null){
-            a+=b;
-        }
-        return a;
+        return br.readLine();
     }
 
     /**
@@ -443,5 +511,3 @@ class SubThread extends Thread implements Runnable{
         writer.flush();
     }
 }
-
-

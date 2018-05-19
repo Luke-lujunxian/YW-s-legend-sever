@@ -40,7 +40,7 @@ public class Main {
         ExecutorService service = Executors.newFixedThreadPool(2);
         try{
             System.out.println("***Begin receiving client's message***");
-            serverSocket=new ServerSocket(8818);
+            serverSocket=new ServerSocket(8848);
             for(int i=0;i<=1;i++) {
                 Socket connection =serverSocket.accept();
                 if(i==0){
