@@ -46,23 +46,52 @@ public class ServerSocketPoolTest  {
 }
 
 class Player_1 extends SubThread implements Runnable{
+    private static SubThread mainThread;
+    private Player_2 player2Information=null;
+    private Personage player1=null;
+
+    public Personage getPlayer1() {
+        return player1;
+    }
+
+
+    public Player_2 getPlayer2Information() {
+        return player2Information;
+    }
+
+    public void setPlayer2Information(Player_2 player2Information) {
+        this.player2Information = player2Information;
+    }
+
+    public static void setMainThread(SubThread new_mainThread) {
+        mainThread = new_mainThread;
+    }
+
+    public static SubThread getMainThread() {
+        return mainThread;
+    }
+
     public Player_1(Socket conSocket, int new_number){
         super(conSocket,new_number);
     }
+
     public void run(){
         try {
             /*
             客户端身份验证
             */
+            writeMsgToClient(getConnection().getOutputStream(),"connected!1");
             setMessage(readMessageFromClient(getConnection().getInputStream()));
-            if(getMessage()=="HelloIamClient"){
+            System.out.println(getMessage());
+            if(getMessage().equals("HelloIamClient")){
                 writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+            }else{
+                writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
             }
             /*
              * 初始人物
              * */
-            Personage player1=null;
-            Personage player2=null;
+
 
             /*
              * 传入玩家ID
@@ -74,9 +103,15 @@ class Player_1 extends SubThread implements Runnable{
              * 接受匹配请求
              * */
             setMessage(readMessageFromClient(getConnection().getInputStream()));
-            if(getMessage()=="askformatching"){
-                writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
-            }
+            mainThread.notify();
+
+            /*
+             * 等待player2准备好前序工作
+             * 等待时间为一分半
+             * */
+            this.wait(90000);
+
+
 
             /*解码后String数组里面的内容
              * cardsetinfo
@@ -103,28 +138,20 @@ class Player_1 extends SubThread implements Runnable{
             }
             yw[] ywList=new yw[8];
             Construct8YW(ywNameList,ywList,player1);
-            Legion hanLegion=null;
-            if(getNumber()==1){
-                hanLegion=new Legion(player1,null,null,null,null,0,0);
-            }
-            if(getNumber()==2){
-                hanLegion=new Legion(player1,null,null,null,null,4,4);
-            }
+            Legion myLegion=null;
+            myLegion=new Legion(player1,null,null,null,null,0,0);
 
-            writeMsgToClient(getConnection().getOutputStream(),"connected!");
-            setMessage(readMessageFromClient(getConnection().getInputStream()));
-            //初始化a，调用主类的初始化方法，传入一个客户端发送的String参数，代表初始化参数，返回一个personage对象
-            //waiting to be implement
-            writeMsgToClient(getConnection().getOutputStream(),"Initialized success!");
-            while(true){
-                //接收客户端参数，需决定客户端传来什么类型的参数
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                //调用主类的方法，传入一个personage对象和message作为参数，表示主类按照客户端发送的message对a进行处理，返回一个String,表示返回给客户端的参数
-                //waiting to be implement
+            /*
+            * 等待传入player2的资料
+            * */
+            mainThread.notify();
+            this.wait(90000);
+            String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
 
-                //向客户端发送参数
-                writeMsgToClient(getConnection().getOutputStream(),getMessage());
-            }
+            writeMsgToClient(getConnection().getOutputStream(),"");
+
+
+
         }catch (Exception e){
             e.printStackTrace();
         }finally{
@@ -138,8 +165,162 @@ class Player_1 extends SubThread implements Runnable{
 }
 
 class Player_2 extends SubThread implements Runnable{
+    private static SubThread mainThread;
+    private Player_1 player1Information=null;
+    private Personage player2=null;
+
+    public Personage getPlayer2() {
+        return player2;
+    }
+
+    public Player_1 getPlayer1Information() {
+        return player1Information;
+    }
+
+    public void setPlayer1Information(Player_1 player1Information) {
+        this.player1Information = player1Information;
+    }
+
+
+
+    public static void setMainThread(SubThread new_mainThread) {
+        mainThread = new_mainThread;
+    }
+
+    public static SubThread getMainThread() {
+        return mainThread;
+    }
     public Player_2(Socket conSocket, int new_number){
         super(conSocket,new_number);
+    }
+
+
+    public void run(){
+        try {
+            /*
+            客户端身份验证
+            */
+            writeMsgToClient(getConnection().getOutputStream(),"connected!2");
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            if(getMessage().equals("HelloIamClient")){
+                writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+            }else{
+                writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
+            }
+            /*
+             * 初始人物
+             * */
+
+
+            /*
+             * 传入玩家ID
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            player2=new Personage(getMessage());
+
+            /*
+             * 接受匹配请求
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            mainThread.notify();
+
+            /*
+            * 等待player1准备好前序工作
+            * 等待时间为一分半
+            * */
+            this.wait(90000);
+            writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
+
+            /*解码后String数组里面的内容
+             * cardsetinfo
+             * 角色名称   暂时只有一个，所以就直接调用了
+             * yw1
+             * yw2
+             * yw3
+             * yw4
+             * yw5
+             * yw6
+             * yw7
+             * yw8
+             * */
+            setMessage(readMessageFromClient(getConnection().getInputStream()));
+            String[] decodeMessage=DecodeFromClient(getMessage());
+            player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
+
+            /*
+            军团成员初始化
+             */
+            String[] ywNameList=new String[8];
+            for(int i=0;i<8;i++){
+                ywNameList[i]=decodeMessage[i+1];
+            }
+            yw[] ywList=new yw[8];
+            Construct8YW(ywNameList,ywList,player2);
+            Legion myLegion=null;
+            myLegion=new Legion(player2,null,null,null,null,4,4);
+
+
+            this.wait(90000);
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                getConnection() .close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
+
+class Main_Thread extends SubThread implements Runnable{
+    private Player_1 player1Imformation =null;
+
+    private Player_2 player2Imformation =null;
+
+
+     Main_Thread(){
+      super();
+    }
+
+    Main_Thread(Player_1 player1,Player_2 player2){
+        player1Imformation=player1;
+        player2Imformation=player2;
+    }
+    public void run(){
+        try {
+            /*
+            * 确认匹配成功，并传回去对手信息
+            * */
+            wait();
+            wait();
+            player1Imformation.notify();
+            player2Imformation.notify();
+            player1Imformation.setPlayer2Information(player2Imformation);
+            player2Imformation.setPlayer1Information(player1Imformation);
+
+            /*
+            * 确认生成军团成功
+            * */
+            wait();
+            wait();
+            player1Imformation.notify();
+            player2Imformation.notify();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                getConnection().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 
@@ -148,6 +329,8 @@ class SubThread extends Thread implements Runnable{
     private Personage a;
     private String message;
     private int number;
+
+    public SubThread(){}
 
     public void setMessage(String new_message){
         message=new_message;
@@ -172,82 +355,23 @@ class SubThread extends Thread implements Runnable{
 
     public void Construct8YW(String[] ywNameList, yw[] ywList,Personage player){
         for(int i=0;i<8;i++){
-            if(ywNameList[i]=="FailTrial1") ywList[i]=new yw_FailTrial1(player);
-            if(ywNameList[i]=="FailTrial2") ywList[i]=new yw_FailTrial2(player);
-            if(ywNameList[i]=="FailTrial3") ywList[i]=new yw_FailTrial3();
-            if(ywNameList[i]=="FailTrial4") ywList[i]=new yw_FailTrial4();
-            if(ywNameList[i]=="FailTrial5") ywList[i]=new yw_FailTrial5();
-            if(ywNameList[i]=="FailTrial6") ywList[i]=new yw_FailTrial6();
-            if(ywNameList[i]=="FailTrial7") ywList[i]=new yw_FailTrial7();
-            if(ywNameList[i]=="FailTrial8") ywList[i]=new yw_FailTrial8(player);
-            if(ywNameList[i]=="FailTrial9") ywList[i]=new yw_FailTrial9(player);
-            if(ywNameList[i]=="FailTrial10") ywList[i]=new yw_FailTrial10();
-            if(ywNameList[i]=="FailTrial11") ywList[i]=new yw_FailTrial11();
-            if(ywNameList[i]=="FailTrial12") ywList[i]=new yw_FailTrial12();
+            if(ywNameList[i].equals("FailTrial1")) ywList[i]=new yw_FailTrial1(player);
+            if(ywNameList[i].equals("FailTrial2")) ywList[i]=new yw_FailTrial2(player);
+            if(ywNameList[i].equals("FailTrial3")) ywList[i]=new yw_FailTrial3();
+            if(ywNameList[i].equals("FailTrial4")) ywList[i]=new yw_FailTrial4();
+            if(ywNameList[i].equals("FailTrial5")) ywList[i]=new yw_FailTrial5();
+            if(ywNameList[i].equals("FailTrial6")) ywList[i]=new yw_FailTrial6();
+            if(ywNameList[i].equals("FailTrial7")) ywList[i]=new yw_FailTrial7();
+            if(ywNameList[i].equals("FailTrial8")) ywList[i]=new yw_FailTrial8(player);
+            if(ywNameList[i].equals("FailTrial9")) ywList[i]=new yw_FailTrial9(player);
+            if(ywNameList[i].equals("FailTrial10")) ywList[i]=new yw_FailTrial10();
+            if(ywNameList[i].equals("FailTrial11")) ywList[i]=new yw_FailTrial11();
+            if(ywNameList[i].equals("FailTrial12")) ywList[i]=new yw_FailTrial12();
         }
     }
 
     public void run(){
         try {
-            /*
-            客户端身份验证
-            */
-            message=readMessageFromClient(connection.getInputStream());
-            if(message=="HelloIamClient"){
-                writeMsgToClient(connection.getOutputStream(),"FuckYou");
-            }
-            /*
-            * 初始人物
-            * */
-            Personage player1=null;
-            Personage player2=null;
-
-            /*
-            * 传入玩家ID
-            * */
-            message=readMessageFromClient(connection.getInputStream());
-            player1=new Personage(message);
-
-            /*
-            * 接受匹配请求
-            * */
-            message=readMessageFromClient(connection.getInputStream());
-            if(message=="askformatching"){
-                writeMsgToClient(connection.getOutputStream(),"matchingaccpt");
-            }
-
-            /*解码后String数组里面的内容
-            * cardsetinfo
-            * 角色名称   暂时只有一个，所以就直接调用了
-            * yw1
-            * yw2
-            * yw3
-            * yw4
-            * yw5
-            * yw6
-            * yw7
-            * yw8
-            * */
-            message=readMessageFromClient(connection.getInputStream());
-            String[] decodeMessage=DecodeFromClient(message);
-            player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
-
-            /*
-            军团成员初始化
-             */
-            String[] ywNameList=new String[8];
-            for(int i=0;i<8;i++){
-                ywNameList[i]=decodeMessage[i+1];
-            }
-            yw[] ywList=new yw[8];
-            Construct8YW(ywNameList,ywList,player1);
-            Legion hanLegion=null;
-            if(number==1){
-                hanLegion=new Legion(player1,null,null,null,null,0,0);
-            }
-            if(number==2){
-                hanLegion=new Legion(player1,null,null,null,null,4,4);
-            }
 
             writeMsgToClient(connection.getOutputStream(),"connected!");
             message=readMessageFromClient(connection.getInputStream());
@@ -300,3 +424,5 @@ class SubThread extends Thread implements Runnable{
         writer.flush();
     }
 }
+
+

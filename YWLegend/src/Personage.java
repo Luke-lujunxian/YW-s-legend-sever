@@ -13,7 +13,9 @@ public class Personage extends Creature implements Character {
     Personage(){
 
     }
-
+    public String getName(){
+        return name;
+    }
     Personage(String new_IDname){
         IDname=new_IDname;
     }

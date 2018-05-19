@@ -18,10 +18,7 @@ import java.util.concurrent.Executors;
 
 public class Main {
 
-    public static String beforeGameSelfChecking (String checkingWords) {
-        if(checkingWords=="") return "LJXZDL";
-        return "not good";
-    }
+
 
 
 
@@ -43,18 +40,20 @@ public class Main {
         ExecutorService service = Executors.newFixedThreadPool(2);
         try{
             System.out.println("***Begin receiving client's message***");
-            serverSocket=new ServerSocket(5556);
+            serverSocket=new ServerSocket(8818);
             for(int i=0;i<=1;i++) {
                 Socket connection =serverSocket.accept();
                 if(i==0){
-                    new_playerOne=new SubThread(connection,1);
+                    new_playerOne=new Player_1(connection,1);
                     service.submit(new_playerOne);
                 }
                 if(i==1){
-                    new_playerTwo=new SubThread(connection,2);
+                    new_playerTwo=new Player_2(connection,2);
                     service.submit(new_playerTwo);
                 }
             }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -67,9 +66,11 @@ public class Main {
         System.out.println("***Sever is now active!***");
         SubThread playerOne=null;
         SubThread playerTwo=null;
+        SubThread mainThread=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
-        //playerOne.join();
-
+        mainThread = new Main_Thread(playerOne,playerTwo);
+        Player_1.setMainThread(mainThread);
+        Player_2.setMainThread(mainThread);
     }
 
 }
