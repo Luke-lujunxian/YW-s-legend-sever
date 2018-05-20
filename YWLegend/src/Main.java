@@ -56,11 +56,7 @@ public class Main {
             mainThread = new Main_Thread(new_playerOne,new_playerTwo);
             Player_1.setMainThread(mainThread);
             Player_2.setMainThread(mainThread);
-            while(true){
-                Socket connection =null;
-                connection=serverSocket.accept();
-                service.submit(new SuddenDeathTread(connection,1));
-            }
+            mainThread.run();
         }catch (Exception e){
             e.printStackTrace();
         }

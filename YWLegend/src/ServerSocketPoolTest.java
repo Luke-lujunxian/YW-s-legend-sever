@@ -92,14 +92,10 @@ class Player_1 extends SubThread implements Runnable{
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 System.out.println(getMessage());
                 if(getMessage().equals("HelloIamClient")){
-                    writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+                    writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
                 }else{
                     writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
                 }
-                /**
-                 * 初始人物
-                 * */
-
 
                 /**
                  * 传入玩家ID
@@ -117,7 +113,7 @@ class Player_1 extends SubThread implements Runnable{
                  * 等待player2准备好前序工作
                  * 等待时间为一分半
                  * */
-                this.wait(90000);
+                this.wait();
 
 
 
@@ -143,34 +139,25 @@ class Player_1 extends SubThread implements Runnable{
                 * */
                 String[] ywNameList=new String[8];
                 for(int i=0;i<8;i++){
-                    ywNameList[i]=decodeMessage[i+1];
+                    ywNameList[i]=decodeMessage[i+2];
                 }
+                //lalala
                 yw[] ywList=new yw[8];
                 Construct8YW(ywNameList,ywList,player1);
                 yw yw1=new yw();
                 yw yw2=new yw();
                 yw yw3=new yw();
                 yw yw4=new yw();
-                myLegion=new Legion(player1,yw1,yw2,yw3,yw4,4,4);
+                myLegion=new Legion(player1,yw1,yw2,yw3,yw4,0,0);
 
                 /**
                  * 等待传入player2的资料
                  * 传回player2的id和名字给player1的客户端
                  * */
                 mainThread.notify();
-                this.wait(90000);
-                String[] outPutStringArray={"matchingaccpt",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
+                this.wait();
+                String[] outPutStringArray={"matchingaccept",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
-
-                /**
-                 * 传入所选择的八个yw并保存
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                decodeMessage=DecodeFromClient(getMessage());
-                String[] allSellectedYWName=new String[8];
-                for(int k=2;k<10;k++){
-                    allSellectedYWName[k-2]=decodeMessage[k];
-                }
 
                 /**
                  * 等待player2完成yw初始化
@@ -341,14 +328,10 @@ class Player_2 extends SubThread implements Runnable{
                 writeMsgToClient(getConnection().getOutputStream(),"connected!2");
                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                 if(getMessage().equals("HelloIamClient")){
-                    writeMsgToClient(getConnection().getOutputStream(),"FuckYou");
+                    writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
                 }else{
                     writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
                 }
-                /**
-                 * 初始人物
-                 * */
-
 
                 /**
                  * 传入玩家ID
@@ -366,8 +349,7 @@ class Player_2 extends SubThread implements Runnable{
                  * 等待player1准备好前序工作
                  * 等待时间为一分半
                  * */
-                this.wait(90000);
-                writeMsgToClient(getConnection().getOutputStream(),"matchingaccpt");
+                this.wait();
 
                 /**解码后String数组里面的内容
                  * cardsetinfo
@@ -389,9 +371,9 @@ class Player_2 extends SubThread implements Runnable{
                  *军团成员初始化
                  *并设军团置默认初始位置
                  * */
-                String[] ywNameList=new String[120];
+                String[] ywNameList=new String[8];
                 for(int i=0;i<8;i++){
-                    ywNameList[i]=decodeMessage[i+1];
+                    ywNameList[i]=decodeMessage[i+2];
                 }
                 yw[] ywList=new yw[8];
                 Construct8YW(ywNameList,ywList,player2);
@@ -406,19 +388,9 @@ class Player_2 extends SubThread implements Runnable{
                  * 传回player1的id和名字给player2的客户端
                  * */
                 mainThread.notify();
-                this.wait(90000);
-                String[] outPutStringArray1={"matchingaccpt",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
+                this.wait();
+                String[] outPutStringArray1={"matchingaccept",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
-
-                /**
-                 * 传入所选择的八个yw并保存
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                decodeMessage=DecodeFromClient(getMessage());
-                String[] allSellectedYWName=new String[8];
-                for(int k=2;k<10;k++){
-                    allSellectedYWName[k-2]=decodeMessage[k];
-                }
 
                 /**
                  * 等待player1完成yw初始化
@@ -643,6 +615,10 @@ class Main_Thread extends SubThread implements Runnable{
                     * 判断输赢
                     * */
                     if(player1Information.myLegion.getLeader().getCurrentHP()<=0){
+                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0) {
+                            player1Information.setVictoryOrDeath("Lose");
+                            player2Information.setVictoryOrDeath("Lose");
+                        }
                         player1Information.setVictoryOrDeath("Lose");
                         player2Information.setVictoryOrDeath("Victory");
                     }else{
@@ -704,6 +680,7 @@ class SubThread extends Thread implements Runnable{
         return m.split("\\u00A1");
     }
 
+    //没有毛用
     public synchronized void Construct8YW(String[] ywNameList, yw[] ywList,Personage player){
         for(int i=0;i<8;i++){
             if(ywNameList[i].equals("FailTrial1")) ywList[i]=new yw_FailTrial1(player);
