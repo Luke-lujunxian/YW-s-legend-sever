@@ -547,6 +547,25 @@ class Player_2 extends SubThread implements Runnable{
 
 }
 
+class SuddenDeathTread extends SubThread implements Runnable{
+    SuddenDeathTread(Socket conSocket,int la){
+        super(conSocket,la);
+    }
+    public void run(){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try{
+                getConnection() .close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
 class Main_Thread extends SubThread implements Runnable{
     private Player_1 player1Information = new Player_1();
 

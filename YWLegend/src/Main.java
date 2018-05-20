@@ -37,7 +37,7 @@ public class Main {
 
     public static void ServerSocketOnlyAcceptTwo(Player_1 new_playerOne, Player_2 new_playerTwo){
         ServerSocket serverSocket = null;
-        ExecutorService service = Executors.newFixedThreadPool(2);
+        ExecutorService service = Executors.newFixedThreadPool(5);
         try{
             System.out.println("***Begin receiving client's message***");
             serverSocket=new ServerSocket(8848);
@@ -52,8 +52,15 @@ public class Main {
                     service.submit(new_playerTwo);
                 }
             }
-
-
+            Main_Thread mainThread=null;
+            mainThread = new Main_Thread(new_playerOne,new_playerTwo);
+            Player_1.setMainThread(mainThread);
+            Player_2.setMainThread(mainThread);
+            while(true){
+                Socket connection =null;
+                connection=serverSocket.accept();
+                service.submit(new SuddenDeathTread(connection,1));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -66,11 +73,7 @@ public class Main {
         System.out.println("***Sever is now active!***");
         Player_1 playerOne=null;
         Player_2 playerTwo=null;
-        Main_Thread mainThread=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
-        mainThread = new Main_Thread(playerOne,playerTwo);
-        Player_1.setMainThread(mainThread);
-        Player_2.setMainThread(mainThread);
     }
 
 }
