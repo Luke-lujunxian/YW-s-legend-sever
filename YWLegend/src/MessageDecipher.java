@@ -394,6 +394,22 @@ public class MessageDecipher extends SubThread{
             }catch (Exception e){
                 e.printStackTrace();
             }
+        }else if(code[0].equals("ActivatePersonageSkill")){
+            if(code[1]=="1"){
+                A.myLegion.getLeader().getFirstSkill().startSkill();
+            }else if(code[1]=="2"){
+                A.myLegion.getLeader().getSecondSkill().startSkill();
+            }
+            try {
+                Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
+                Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+
+            }
+
+
         }
 
     }
@@ -568,6 +584,23 @@ public class MessageDecipher extends SubThread{
                 e.printStackTrace();
             }finally {
             }
+        }
+        else if(code[0].equals("ActivatePersonageSkill")){
+            if(code[1]=="1"){
+                A.myLegion.getLeader().getFirstSkill().startSkill();
+            }else if(code[1]=="2"){
+                A.myLegion.getLeader().getSecondSkill().startSkill();
+            }
+                try {
+                    Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
+                    Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+
+                }
+
+
         }
 
     }

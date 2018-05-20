@@ -6,6 +6,8 @@ public class Personage_UndefinedSpecies_UndefinedReligion_UndefinedName extends 
     private Skill firstSkill, secondSkill;
     private String IDname;
     private String name;
+    private String skillInitializedTime1="";//StartRound, InRound, EndRound
+    private String skillInitializedTime2="";//StartRound, InRound, EndRound
 
     Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(String new_IDname){
         power=0;
@@ -16,6 +18,8 @@ public class Personage_UndefinedSpecies_UndefinedReligion_UndefinedName extends 
         secondSkill = SkillFactory.createSkill(30,this,null,null);
         IDname=new_IDname;
         name="Undefined";
+        skillInitializedTime1="InRound";
+        skillInitializedTime2="StartRound";
     }
 
 }
