@@ -255,9 +255,7 @@ public class MessageDecipher extends SubThread{
                     }
                 }catch (Exception e){
                     e.printStackTrace();
-                }finally {
                 }
-
             }
         }
         else if(code[0].equals("Attack")){
@@ -315,7 +313,7 @@ public class MessageDecipher extends SubThread{
                             int yw_pos_1=Integer.valueOf(code[4]);
                             Character a=A.myLegion.getCharacters()[yw_pos];//lalala
                             Character b=A.myLegion.getCharacters()[yw_pos_1];
-                            if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                            if(!Attack(a,b)) A.myLegion.getCharacters()[yw_pos_1]=new yw();
                             returnArray[5]=b.get("currentHP")+"";
                             returnArray[6]=1+"";
                             if(!Attack(a,b)) returnArray[6]=0+"";
@@ -331,7 +329,7 @@ public class MessageDecipher extends SubThread{
                         int yw_pos_1=Integer.valueOf(code[4]);
                         Character a=A.myLegion.getCharacters()[yw_pos];
                         Character b=B.myLegion.getCharacters()[yw_pos_1];
-                        if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos]=new yw();
+                        if(!Attack(a,b)) B.myLegion.getCharacters()[yw_pos_1]=new yw();
                         returnArray[5]=b.get("currentHP")+"";
                         returnArray[6]=1+"";
                         if(!Attack(a,b)) returnArray[6]=0+"";
@@ -351,7 +349,6 @@ public class MessageDecipher extends SubThread{
                 }
             }catch (Exception e){
                 e.printStackTrace();
-            }finally {
             }
             /*else{
                 if(code[2].equals("999")){
@@ -396,7 +393,6 @@ public class MessageDecipher extends SubThread{
                 }
             }catch (Exception e){
                 e.printStackTrace();
-            }finally {
             }
         }
 
