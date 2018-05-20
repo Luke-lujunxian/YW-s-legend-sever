@@ -241,7 +241,7 @@ class Player_1 extends SubThread implements Runnable{
                         writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                         writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
                     }
-                    
+
                     /**
                      * 返回所有军团的具体情况给客户端
                      * */

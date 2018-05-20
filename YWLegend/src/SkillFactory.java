@@ -188,9 +188,9 @@ public class SkillFactory {
 
             /*
             种族别名：Undefined
-            第二技能：人物回血：中回合开始时，回两点血
+            第二技能：人物回血（耗费能量25）：回两点血
             */
-            case 30: return new ChangeHP(new BasicSkill(0,target1),2);
+            case 30: return new ChangeHP(new BasicSkill(25,target1),2);
 
 
         }
