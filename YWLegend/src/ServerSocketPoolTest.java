@@ -466,7 +466,7 @@ class Player_2 extends SubThread implements Runnable{
                                 writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
                                 break;
                             }
-                            MessageDecipher.decipher2(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
+                            MessageDecipher.decipher(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
                         }
 
                         /**
