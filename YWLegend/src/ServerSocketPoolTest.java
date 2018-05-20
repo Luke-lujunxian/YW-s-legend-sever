@@ -153,7 +153,7 @@ class Player_1 extends SubThread implements Runnable{
                 /**
                  * 等待传入player2的资料
                  * 传回player2的id和名字给player1的客户端
-                 * */
+                 **/
                 mainThread.notify();
                 this.wait();
                 String[] outPutStringArray={"matchingaccept",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
