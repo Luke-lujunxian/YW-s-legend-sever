@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 public class Main {
 
 
-
+    final String version = "0.1 Demo";
 
 
     public static String middleTurn (String request, Object a, Object b, Object c, Object d, Object e) {
