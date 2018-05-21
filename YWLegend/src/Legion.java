@@ -75,7 +75,8 @@ public class Legion {
     }
     private void initial_status(Character character,yw placement_1,yw placement_2,yw placement_3,yw placement_4,int pos_x,int pos_y){//初始化信息，欲待完善
         //characters[0]=character;
-        leader=(Personage)character;
+        if(character instanceof  Personage) leader=(Personage)character;
+        else throw new Exception("noPersoange");
         characters[0]=placement_1;
         placement_1.yw_pos=0;
         characters[1]=placement_2;
