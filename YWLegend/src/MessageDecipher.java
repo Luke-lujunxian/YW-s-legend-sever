@@ -225,6 +225,8 @@ public class MessageDecipher extends SubThread{
             try {
                 Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
                 Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"SkillActivate"+"\u00A1"+A.myLegion.getLeader().getName()+"\u00A1"+"999");
+                Player_1.writeMsgToClient(A.getConnection().getOutputStream(),"End");
+                Player_2.writeMsgToClient(B.getConnection().getOutputStream(),"End");
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -84,189 +84,200 @@ class Player_1 extends SubThread implements Runnable{
     public Legion myLegion=null;
     public void run(){
         try {
-            synchronized (mainThread){
-                /**
-                客户端身份验证
-                */
-                writeMsgToClient(getConnection().getOutputStream(),"connected!1");
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                System.out.println(getMessage());
-                if(getMessage().equals("HelloIamClient")){
-                    writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
-                }else{
-                    writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
-                }
-
-                /**
-                 * 传入玩家ID
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                player1=new Personage(getMessage());
-
-                /**
-                 * 接受匹配请求
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                mainThread.notify();
-
-                /**
-                 * 等待player2准备好前序工作
-                 * 等待时间为一分半
-                 * */
-                this.wait();
-
-
-
-                /**解码后String数组里面的内容
-                 * cardsetinfo
-                 * 角色名称   暂时只有一个，所以就直接调用了
-                 * yw1
-                 * yw2
-                 * yw3
-                 * yw4
-                 * yw5
-                 * yw6
-                 * yw7
-                 * yw8
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                String[] decodeMessage=DecodeFromClient(getMessage());
-                player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
-
-                /**
-                *军团成员初始化
-                *并设军团置默认初始位置
-                * */
-                String[] ywNameList=new String[8];
-                for(int i=0;i<8;i++){
-                    ywNameList[i]=decodeMessage[i+2];
-                }
-                //lalala
-                yw[] ywList=new yw[8];
-                Construct8YW(ywNameList,ywList,player1);
-                yw yw1=new yw();
-                yw yw2=new yw();
-                yw yw3=new yw();
-                yw yw4=new yw();
-                myLegion=new Legion(player1,yw1,yw2,yw3,yw4,0,0);
-
-                /**
-                 * 等待传入player2的资料
-                 * 传回player2的id和名字给player1的客户端
-                 **/
-                mainThread.notify();
-                this.wait();
-                String[] outPutStringArray={"matchingaccept",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
-                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
-
-                /**
-                 * 等待player2完成yw初始化
-                 * */
-                mainThread.notify();
-                this.wait();
-
-                /**
-                 * 将初始化后己方军团和对方军团的位置发给客户端
-                 * */
-                String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
-                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
-
-                /**
-                 * 等待客户端加载成功
-                 * 也等待对手加载
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                mainThread.notify();
-                this.wait();
-                writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
-
-                /**
-                * 声明两个list来储存yw
-                * 一个是中回合开始时运行的skill
-                * 另一是中回合结束时运行的skill
-                * */
-                List<yw> startRoundSkill=new ArrayList<yw>();
-                List<yw> endRoundSkill=new ArrayList<yw>();
-
-                /**
-                * 中回合开始
-                * 循环直到有一个人物死亡为止
-                * */
-                while(true){
-
+               synchronized (this){
                     /**
-                    * 中回合开始时运行的skill运行，并返回操作和结果给客户端
-                    * 重置startRoundSkill 这个List
-                    * */
-                    for(yw a: startRoundSkill){
-                        a.skill();
-                        String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
-                        writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
-                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
+                     客户端身份验证
+                     */
+                    writeMsgToClient(getConnection().getOutputStream(),"connected!1");
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    System.out.println(getMessage());
+                    if(getMessage().equals("HelloIamClient")){
+                        writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
+                    }else{
+                        writeMsgToClient(getConnection().getOutputStream(),"youareplayer1");
                     }
 
                     /**
-                     * 返回所有军团的具体情况给客户端
-                    * */
-                    writeMsgToClient(getConnection().getOutputStream(),"End");
-                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
-                    writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
-                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
-                    startRoundSkill=new ArrayList<yw>();
+                     * 传入玩家ID
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    player1=new Personage(getMessage());
+                    System.out.println(getMessage());
 
                     /**
-                    * 接收每一次客户的请求，并返回对应的操作和结果给客户端
-                    * */
+                     * 接受匹配请求
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    System.out.println(getMessage());
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+
+                    /**
+                     * 等待player2准备好前序工作
+                     * 等待时间为一分半
+                     * */
+                    this.wait();
+
+
+
+                    /**解码后String数组里面的内容
+                     * cardsetinfo
+                     * 角色名称   暂时只有一个，所以就直接调用了
+                     * yw1
+                     * yw2
+                     * yw3
+                     * yw4
+                     * yw5
+                     * yw6
+                     * yw7
+                     * yw8
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    String[] decodeMessage=DecodeFromClient(getMessage());
+                    player1= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player1.getIDname());
+
+                    /**
+                     *军团成员初始化
+                     *并设军团置默认初始位置
+                     * */
+                    String[] ywNameList=new String[8];
+                    for(int i=0;i<8;i++){
+                        ywNameList[i]=decodeMessage[i+2];
+                    }
+                    //lalala
+                    yw[] ywList=new yw[8];
+                    Construct8YW(ywNameList,ywList,player1);
+                    yw yw1=new yw();
+                    yw yw2=new yw();
+                    yw yw3=new yw();
+                    yw yw4=new yw();
+                    myLegion=new Legion(player1,yw1,yw2,yw3,yw4,0,0);
+
+                    /**
+                     * 等待传入player2的资料
+                     * 传回player2的id和名字给player1的客户端
+                     **/
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+                    String[] outPutStringArray={"matchingaccept",player2Information.getPlayer2().getIDname(),player2Information.getPlayer2().getName()};
+                    writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray));
+
+                    /**
+                     * 等待player2完成yw初始化
+                     * */
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+
+                    /**
+                     * 将初始化后己方军团和对方军团的位置发给客户端
+                     * */
+                    String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player2Information.myLegion.Legion_pos[0]+""+player2Information.myLegion.Legion_pos[1],"1"};
+                    writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
+
+                    /**
+                     * 等待客户端加载成功
+                     * 也等待对手加载
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+                    writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
+
+                    /**
+                     * 声明两个list来储存yw
+                     * 一个是中回合开始时运行的skill
+                     * 另一是中回合结束时运行的skill
+                     * */
+                    List<yw> startRoundSkill=new ArrayList<yw>();
+                    List<yw> endRoundSkill=new ArrayList<yw>();
+
+                    /**
+                     * 中回合开始
+                     * 循环直到有一个人物死亡为止
+                     * */
                     while(true){
-                        setMessage(readMessageFromClient(getConnection().getInputStream()));
-                        String[] decodeAfter=DecodeFromClient(getMessage());
 
                         /**
-                         * 若客户端传入TerminateMyturn，则会跳出此循环
-                        * */
-                        if(decodeAfter[0].equals("TerminateMyturn")){
-                            writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
-                            break;
+                         * 中回合开始时运行的skill运行，并返回操作和结果给客户端
+                         * 重置startRoundSkill 这个List
+                         * */
+                        for(yw a: startRoundSkill){
+                            a.skill();
+                            String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                            writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
                         }
-                        MessageDecipher.decipher(decodeAfter,this,getPlayer2Information(),startRoundSkill,endRoundSkill);
+
+                        /**
+                         * 返回所有军团的具体情况给客户端
+                         * */
+                        writeMsgToClient(getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                        startRoundSkill=new ArrayList<yw>();
+
+                        /**
+                         * 接收每一次客户的请求，并返回对应的操作和结果给客户端
+                         * */
+                        while(true){
+                            setMessage(readMessageFromClient(getConnection().getInputStream()));
+                            String[] decodeAfter=DecodeFromClient(getMessage());
+
+                            /**
+                             * 若客户端传入TerminateMyturn，则会跳出此循环
+                             * */
+                            if(decodeAfter[0].equals("TerminateMyturn")){
+                                writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
+                                break;
+                            }
+                            MessageDecipher.decipher(decodeAfter,this,getPlayer2Information(),startRoundSkill,endRoundSkill);
+                        }
+
+                        /**
+                         * 中回合结束时运行的skill运行，并返回操作和结果给客户端
+                         * 重置endRoundSkill 这个List
+                         * */
+                        for(yw a: endRoundSkill){
+                            a.skill();
+                            String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                            writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
+                        }
+
+                        /**
+                         * 第四个位置上的yw憨掉
+                         * 返回所有军团的具体情况给客户端
+                         * */
+
+                        writeMsgToClient(getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
+                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
+                        endRoundSkill=new ArrayList<yw>();
+
+                        /**
+                         * 传回主线程，并进行下一个玩家的turn
+                         * */
+                        synchronized (mainThread)
+                        {mainThread.notify();}
+                        wait();
+                        if(breakNumber!=0) break;
                     }
 
                     /**
-                     * 中回合结束时运行的skill运行，并返回操作和结果给客户端
-                     * 重置endRoundSkill 这个List
+                     * 判断胜负
                      * */
-                    for(yw a: endRoundSkill){
-                        a.skill();
-                        String[] lala={"SkillActivate",player1.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
-                        writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
-                        writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),outputDataForm(lala));
-                    }
-
-                    /**
-                     * 返回所有军团的具体情况给客户端
-                     * */
-                    writeMsgToClient(getConnection().getOutputStream(),"End");
-                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"End");
-                    writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
-                    writeMsgToClient(getPlayer2Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(this,getPlayer2Information()));
-                    endRoundSkill=new ArrayList<yw>();
-
-                    /**
-                     * 传回主线程，并进行下一个玩家的turn
-                     * */
-                    mainThread.notify();
-                    wait();
-                    if(breakNumber!=0) break;
-                }
-
-                /**
-                * 判断胜负
-                * */
-                if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
-                if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
+                    if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
+                    if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
 
 
-            }
+               }
+
+
 
         }catch (Exception e){
             e.printStackTrace();
@@ -321,191 +332,200 @@ class Player_2 extends SubThread implements Runnable{
     public Legion myLegion=null;
     public void run(){
         try {
-            synchronized (mainThread){
-                /**
-            客户端身份验证
-            */
-                writeMsgToClient(getConnection().getOutputStream(),"connected!2");
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                if(getMessage().equals("HelloIamClient")){
-                    writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
-                }else{
-                    writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
-                }
 
-                /**
-                 * 传入玩家ID
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                player2=new Personage(getMessage());
-
-                /**
-                 * 接受匹配请求
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                mainThread.notify();
-
-                /**
-                 * 等待player1准备好前序工作
-                 * 等待时间为一分半
-                 * */
-                this.wait();
-
-                /**解码后String数组里面的内容
-                 * cardsetinfo
-                 * 角色名称   暂时只有一个，所以就直接调用了
-                 * yw1
-                 * yw2
-                 * yw3
-                 * yw4
-                 * yw5
-                 * yw6
-                 * yw7
-                 * yw8
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                String[] decodeMessage=DecodeFromClient(getMessage());
-                player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
-
-                /**
-                 *军团成员初始化
-                 *并设军团置默认初始位置
-                 * */
-                String[] ywNameList=new String[8];
-                for(int i=0;i<8;i++){
-                    ywNameList[i]=decodeMessage[i+2];
-                }
-                yw[] ywList=new yw[8];
-                Construct8YW(ywNameList,ywList,player2);
-                yw yw1=new yw();
-                yw yw2=new yw();
-                yw yw3=new yw();
-                yw yw4=new yw();
-                myLegion=new Legion(player2,yw1,yw2,yw3,yw4,4,4);
-
-                /**
-                 * 等待传入player1的资料
-                 * 传回player1的id和名字给player2的客户端
-                 * */
-                mainThread.notify();
-                this.wait();
-                String[] outPutStringArray1={"matchingaccept",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
-                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
-
-                /**
-                 * 等待player1完成yw初始化
-                 * */
-                mainThread.notify();
-                this.wait();
-
-                /**
-                 * 将初始化后己方军团和对方军团的位置发给客户端
-                 * */
-                String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
-                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
-
-                /**
-                 * 等待客户端加载成功
-                 * 也等待对手加载
-                 * */
-                setMessage(readMessageFromClient(getConnection().getInputStream()));
-                mainThread.notify();
-                this.wait();
-                writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
-
-                /**
-                 * player2是后手就会先wait
-                 * */
-                this.wait();
-                if(breakNumber==0){
+            synchronized (this){
                     /**
-                     * 声明两个list来储存yw
-                     * 一个是中回合开始时运行的skill
-                     * 另一是中回合结束时运行的skill
-                     * */
-                    List<yw> startRoundSkill=new ArrayList<yw>();
-                    List<yw> endRoundSkill=new ArrayList<yw>();
-
-                    /**
-                     * 中回合开始
-                     * 循环直到有一个人物死亡为止
-                     * */
-                    while(true){
-
-                        /**
-                         * 中回合开始时运行的skill运行，并返回操作和结果给客户端
-                         * 重置startRoundSkill 这个List
-                         * */
-                        for(yw a: startRoundSkill){
-                            a.skill();
-                            String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
-                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
-                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
-                        }
-
-                        /**
-                         * 返回所有军团的具体情况给客户端
-                         * */
-                        writeMsgToClient(getConnection().getOutputStream(),"End");
-                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
-                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
-                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
-                        startRoundSkill=new ArrayList<yw>();
-
-                        /**
-                         * 接收每一次客户的请求，并返回对应的操作和结果给客户端
-                         * */
-                        while(true){
-                            setMessage(readMessageFromClient(getConnection().getInputStream()));
-                            String[] decodeAfter=DecodeFromClient(getMessage());
-
-                            /**
-                             * 若客户端传入TerminateMyturn，则会跳出此循环
-                             * */
-                            if(decodeAfter[0].equals("TerminateMyturn")){
-                                writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
-                                break;
-                            }
-                            MessageDecipher.decipher(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
-                        }
-
-                        /**
-                         * 中回合结束时运行的skill运行，并返回操作和结果给客户端
-                         * 重置endRoundSkill 这个List
-                         * */
-                        for(yw a: endRoundSkill){
-                            a.skill();
-                            String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
-                            writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
-                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
-                        }
-
-                        /**
-                         * 返回所有军团的具体情况给客户端
-                         * */
-                        writeMsgToClient(getConnection().getOutputStream(),"End");
-                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
-                        writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
-                        writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
-                        endRoundSkill=new ArrayList<yw>();
-
-                        /**
-                         * 传回主线程，并进行下一个玩家的turn
-                         * */
-                        mainThread.notify();
-                        wait();
-                        if(breakNumber!=0) break;
+                     客户端身份验证
+                     */
+                    writeMsgToClient(getConnection().getOutputStream(),"connected!2");
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    if(getMessage().equals("HelloIamClient")){
+                        writeMsgToClient(getConnection().getOutputStream(),"LoveYou");
+                    }else{
+                        writeMsgToClient(getConnection().getOutputStream(),"youareplayer2");
                     }
 
+                    /**
+                     * 传入玩家ID
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    player2=new Personage(getMessage());
+                    System.out.println(getMessage());
+
+                    /**
+                     * 接受匹配请求
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    mainThread.notify();
+                    System.out.println(getMessage());
+
+                    /**
+                     * 等待player1准备好前序工作
+                     * 等待时间为一分半
+                     * */
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+
+                    /**解码后String数组里面的内容
+                     * cardsetinfo
+                     * 角色名称   暂时只有一个，所以就直接调用了
+                     * yw1
+                     * yw2
+                     * yw3
+                     * yw4
+                     * yw5
+                     * yw6
+                     * yw7
+                     * yw8
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    String[] decodeMessage=DecodeFromClient(getMessage());
+                    player2= new Personage_UndefinedSpecies_UndefinedReligion_UndefinedName(player2.getIDname());
+
+                    /**
+                     *军团成员初始化
+                     *并设军团置默认初始位置
+                     * */
+                    String[] ywNameList=new String[8];
+                    for(int i=0;i<8;i++){
+                        ywNameList[i]=decodeMessage[i+2];
+                    }
+                    yw[] ywList=new yw[8];
+                    Construct8YW(ywNameList,ywList,player2);
+                    yw yw1=new yw();
+                    yw yw2=new yw();
+                    yw yw3=new yw();
+                    yw yw4=new yw();
+                    myLegion=new Legion(player2,yw1,yw2,yw3,yw4,4,4);
+
+                    /**
+                     * 等待传入player1的资料
+                     * 传回player1的id和名字给player2的客户端
+                     * */
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+                    String[] outPutStringArray1={"matchingaccept",player1Information.getPlayer1().getIDname(),player1Information.getPlayer1().getName()};
+                    writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray1));
+
+                    /**
+                     * 等待player1完成yw初始化
+                     * */
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+
+                    /**
+                     * 将初始化后己方军团和对方军团的位置发给客户端
+                     * */
+                    String[] outPutStringArray2={"Mapinitialized",myLegion.Legion_pos[0]+""+myLegion.Legion_pos[1],player1Information.myLegion.Legion_pos[0]+""+player1Information.myLegion.Legion_pos[1],"2"};
+                    writeMsgToClient(getConnection().getOutputStream(),outputDataForm(outPutStringArray2));
+
+                    /**
+                     * 等待客户端加载成功
+                     * 也等待对手加载
+                     * */
+                    setMessage(readMessageFromClient(getConnection().getInputStream()));
+                    synchronized (mainThread)
+                    {mainThread.notify();}
+                    this.wait();
+                    writeMsgToClient(getConnection().getOutputStream(),"BothPlayerReady");
+
+                    /**
+                     * player2是后手就会先wait
+                     * */
+                    this.wait();
+                    if(breakNumber==0){
+                        /**
+                         * 声明两个list来储存yw
+                         * 一个是中回合开始时运行的skill
+                         * 另一是中回合结束时运行的skill
+                         * */
+                        List<yw> startRoundSkill=new ArrayList<yw>();
+                        List<yw> endRoundSkill=new ArrayList<yw>();
+
+                        /**
+                         * 中回合开始
+                         * 循环直到有一个人物死亡为止
+                         * */
+                        while(true){
+
+                            /**
+                             * 中回合开始时运行的skill运行，并返回操作和结果给客户端
+                             * 重置startRoundSkill 这个List
+                             * */
+                            for(yw a: startRoundSkill){
+                                a.skill();
+                                String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                                writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
+                            }
+
+                            /**
+                             * 返回所有军团的具体情况给客户端
+                             * */
+                            writeMsgToClient(getConnection().getOutputStream(),"End");
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
+                            writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                            startRoundSkill=new ArrayList<yw>();
+
+                            /**
+                             * 接收每一次客户的请求，并返回对应的操作和结果给客户端
+                             * */
+                            while(true){
+                                setMessage(readMessageFromClient(getConnection().getInputStream()));
+                                String[] decodeAfter=DecodeFromClient(getMessage());
+
+                                /**
+                                 * 若客户端传入TerminateMyturn，则会跳出此循环
+                                 * */
+                                if(decodeAfter[0].equals("TerminateMyturn")){
+                                    writeMsgToClient(getConnection().getOutputStream(),"TerminateConfirmed");
+                                    break;
+                                }
+                                MessageDecipher.decipher(decodeAfter,this,getPlayer1Information(),startRoundSkill,endRoundSkill);
+                            }
+
+                            /**
+                             * 中回合结束时运行的skill运行，并返回操作和结果给客户端
+                             * 重置endRoundSkill 这个List
+                             * */
+                            for(yw a: endRoundSkill){
+                                a.skill();
+                                String[] lala={"SkillActivate",player2.getIDname(),"999"};//因为只会修改人物的信息所以暂时先这样写
+                                writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
+                                writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
+                            }
+
+                            /**
+                             * 返回所有军团的具体情况给客户端
+                             * */
+                            writeMsgToClient(getConnection().getOutputStream(),"End");
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"End");
+                            writeMsgToClient(getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                            writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),"AllSkillEndAndResult"+"\u00A1"+Map.reportOfAllMapComponents(getPlayer1Information(),this));
+                            endRoundSkill=new ArrayList<yw>();
+
+                            /**
+                             * 传回主线程，并进行下一个玩家的turn
+                             * */
+                            synchronized (mainThread)
+                            {mainThread.notify();}
+                            wait();
+                            if(breakNumber!=0) break;
+                        }
+
+                    }
+
+                    /**
+                     * 判断胜负
+                     * */
+                    if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
+                    if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
+
                 }
 
-                /**
-                 * 判断胜负
-                 * */
-                if(victoryOrDeath.equals("Victory")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Victory");
-                if(victoryOrDeath.equals("Lose")) writeMsgToClient(getConnection().getOutputStream(),"Result"+"\u00A1"+"Lose");
-
-            }
         }catch (Exception e){
             e.printStackTrace();
         }finally{
@@ -554,82 +574,85 @@ class Main_Thread extends SubThread implements Runnable{
     }
     public void run(){
         try {
-            synchronized (player1Information){
-                synchronized (player2Information){
-                    /**
-                     * 确认匹配成功，并传回去对手信息
-                     * */
-                    this.wait();
-                    this.wait();
-                    player1Information.notify();
-                    player2Information.notify();
-                    player1Information.setPlayer2Information(player2Information);
-                    player2Information.setPlayer1Information(player1Information);
-
-                    /**
-                     * 确认生成军团成功
-                     * */
-                    this.wait();
-                    this.wait();
-                    player1Information.notify();
-                    player2Information.notify();
-
-                    /**
-                     * 双方成功加载各自的yw
-                     * */
-                    this.wait();
-                    this.wait();
-                    player1Information.notify();
-                    player2Information.notify();
-
-                    /**
-                     * 双方成功加载自己的地图
-                     * */
-                    this.wait();
-                    this.wait();
-                    player1Information.notify();
-                    player2Information.notify();
-
-                    /**
-                    * 大回合循环
-                    * 直到判断有一方死亡
-                    * */
-                    while(true){
+            synchronized (this){
+                synchronized (player1Information){
+                    synchronized (player2Information){
+                        /**
+                         * 确认匹配成功，并传回去对手信息
+                         * */
                         this.wait();
-                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                        this.wait();
+                        player1Information.notify();
+                        player2Information.notify();
+                        player1Information.setPlayer2Information(player2Information);
+                        player2Information.setPlayer1Information(player1Information);
+
+                        /**
+                         * 确认生成军团成功
+                         * */
+                        this.wait();
+                        this.wait();
+                        player1Information.notify();
                         player2Information.notify();
 
+                        /**
+                         * 双方成功加载各自的yw
+                         * */
                         this.wait();
-                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                        this.wait();
                         player1Information.notify();
+                        player2Information.notify();
 
-                    }
+                        /**
+                         * 双方成功加载自己的地图
+                         * */
+                        this.wait();
+                        this.wait();
+                        player1Information.notify();
+                        player2Information.notify();
 
-                    /**
-                    * 结束所有中回合
-                    * */
-                    player1Information.breakNumber=1;
-                    player2Information.breakNumber=1;
+                        /**
+                         * 大回合循环
+                         * 直到判断有一方死亡
+                         * */
+                        while(true){
+                            this.wait();
+                            if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                            player2Information.notify();
 
-                    /**
-                    * 判断输赢
-                    * */
-                    if(player1Information.myLegion.getLeader().getCurrentHP()<=0){
-                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0) {
+                            this.wait();
+                            if(player1Information.myLegion.getLeader().getCurrentHP()<=0||player2Information.myLegion.getLeader().getCurrentHP()<=0) break;
+                            player1Information.notify();
+
+                        }
+
+                        /**
+                         * 结束所有中回合
+                         * */
+                        player1Information.breakNumber=1;
+                        player2Information.breakNumber=1;
+
+                        /**
+                         * 判断输赢
+                         * */
+                        if(player1Information.myLegion.getLeader().getCurrentHP()<=0){
+                            if(player1Information.myLegion.getLeader().getCurrentHP()<=0) {
+                                player1Information.setVictoryOrDeath("Lose");
+                                player2Information.setVictoryOrDeath("Lose");
+                            }
                             player1Information.setVictoryOrDeath("Lose");
+                            player2Information.setVictoryOrDeath("Victory");
+                        }else{
+                            player1Information.setVictoryOrDeath("Victory");
                             player2Information.setVictoryOrDeath("Lose");
                         }
-                        player1Information.setVictoryOrDeath("Lose");
-                        player2Information.setVictoryOrDeath("Victory");
-                    }else{
-                        player1Information.setVictoryOrDeath("Victory");
-                        player2Information.setVictoryOrDeath("Lose");
+                        player1Information.notify();
+                        player2Information.notify();
+
+
                     }
-                    player1Information.notify();
-                    player2Information.notify();
-
-
                 }
+
             }
 
 
