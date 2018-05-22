@@ -251,7 +251,11 @@ class Player_1 extends SubThread implements Runnable{
                         }
 
                         /**
-                         * 第四个位置上的yw憨掉
+                         * 清除在第四格上的yw
+                         * */
+                        myLegion.getCharacters()[3]=new yw();
+
+                        /**
                          * 返回所有军团的具体情况给客户端
                          * */
 
@@ -501,6 +505,11 @@ class Player_2 extends SubThread implements Runnable{
                                 writeMsgToClient(getConnection().getOutputStream(),outputDataForm(lala));
                                 writeMsgToClient(getPlayer1Information().getConnection().getOutputStream(),outputDataForm(lala));
                             }
+
+                            /**
+                             * 清除在第四格上的yw
+                            * */
+                            myLegion.getCharacters()[3]=new yw();
 
                             /**
                              * 返回所有军团的具体情况给客户端
