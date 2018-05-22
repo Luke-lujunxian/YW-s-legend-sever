@@ -224,6 +224,7 @@ class Player_1 extends SubThread implements Runnable{
                          * 接收每一次客户的请求，并返回对应的操作和结果给客户端
                          * */
                         while(true){
+                            //每个中回合开始时，增加二十五点能量
                             myLegion.getLeader().set("power",myLegion.getLeader().get("power")+25);
                             setMessage(readMessageFromClient(getConnection().getInputStream()));
                             String[] decodeAfter=DecodeFromClient(getMessage());
@@ -475,6 +476,7 @@ class Player_2 extends SubThread implements Runnable{
                              * 接收每一次客户的请求，并返回对应的操作和结果给客户端
                              * */
                             while(true){
+                                //每个中回合开始时，增加二十五点能量
                                 myLegion.getLeader().set("power",myLegion.getLeader().get("power")+25);
                                 setMessage(readMessageFromClient(getConnection().getInputStream()));
                                 String[] decodeAfter=DecodeFromClient(getMessage());

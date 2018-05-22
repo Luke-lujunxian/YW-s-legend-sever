@@ -23,7 +23,6 @@ public class yw implements Character{//有待接口化
             blood = 1;
             attack = 1;
             attackRange = 1;
-            //ability 待实现
             saying = "这是一个尹巍（出现尹巍时请重启游戏并回报bug）";
             character = new Personage();
     }
