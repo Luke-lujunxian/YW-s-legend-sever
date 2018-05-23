@@ -66,7 +66,7 @@ public class Main {
     public static void main (String[] args) {
         System.out.println("\u00A1  i");
         System.out.println("***This is sever!***");
-        System.out.println("***Sever is now active!***");
+        System.out.println("***Server is now active!***");
         Player_1 playerOne=null;
         Player_2 playerTwo=null;
         ServerSocketOnlyAcceptTwo(playerOne,playerTwo);
